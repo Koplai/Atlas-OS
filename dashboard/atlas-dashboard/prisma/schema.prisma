@@ -1,0 +1,119 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum TaskStatus {
+  TODO
+  IN_PROGRESS
+  DONE
+  ARCHIVE
+}
+
+enum RunStatus {
+  PLANNED
+  RUNNING
+  BLOCKED
+  VERIFIED
+  FAILED
+  ABORTED
+}
+
+enum Severity {
+  INFO
+  WARN
+  ERROR
+  SECURITY
+}
+
+enum Source {
+  UI
+  AGENT
+  N8N
+  BRIDGE
+  DOCKER
+  CLOUDFLARE
+  GITHUB
+  MODEL
+}
+
+model Task {
+  id           String     @id @default(uuid())
+  title        String
+  status       TaskStatus @default(TODO)
+  tags         String[]
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  linkedRunIds String[]
+  evidenceRefs String[]
+  archivedAt   DateTime?
+}
+
+model Run {
+  id           String    @id @default(uuid())
+  name         String
+  status       RunStatus @default(PLANNED)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  steps        Json?
+  inputs       Json?
+  outputs      Json?
+  evidenceRefs String[]
+  approvals    Json?
+}
+
+model LogEntry {
+  id        String   @id @default(uuid())
+  timestamp DateTime @default(now())
+  severity  Severity @default(INFO)
+  source    Source   @default(UI)
+  message   String
+  runId     String?
+  taskId    String?
+  agentId   String?
+  docId     String?
+  workflowId String?
+  evidenceRef Json?
+}
+
+model Doc {
+  id        String   @id @default(uuid())
+  title     String
+  typeTag   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  bodyMd    String
+  versions  Json?
+  links     String[]
+}
+
+model Agent {
+  id                 String   @id @default(uuid())
+  name               String
+  status             String
+  systemPromptVersion String
+  toolsAllowed       String[]
+  lastRunId          String?
+}
+
+model Integration {
+  id           String   @id @default(uuid())
+  name         String
+  status       String
+  lastTestAt   DateTime?
+  scopesSummary String?
+}
+
+model Artifact {
+  id          String   @id @default(uuid())
+  type        String
+  pointer     String
+  hash        String?
+  size        Int?
+  createdAt   DateTime @default(now())
+  linkedRunId String?
+}

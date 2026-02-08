@@ -1,5 +1,7 @@
 import { Bell, LayoutGrid, FileText, ScrollText, CircleDot } from "lucide-react";
 
+import TaskPanel from "@/app/components/TaskPanel";
+
 export default function Home() {
   return (
     <main className="min-h-screen bg-[#0b1118] text-slate-100">
@@ -52,6 +54,8 @@ export default function Home() {
             <div className="text-sm text-slate-400">Proof-of-Work</div>
             <div className="mt-2 text-xs text-slate-500">No evidence yet</div>
           </div>
+
+          <div className="mt-4"><TaskPanel /></div>
 
           {/* Kanban */}
           <div className="mt-6 grid gap-4 md:grid-cols-4">
