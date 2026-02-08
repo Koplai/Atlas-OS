@@ -117,3 +117,10 @@ model Artifact {
   createdAt   DateTime @default(now())
   linkedRunId String?
 }
+
+model ChatMessage {
+  id        String   @id @default(uuid())
+  role      String
+  content   String
+  createdAt DateTime @default(now())
+}
