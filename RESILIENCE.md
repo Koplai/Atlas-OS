@@ -36,19 +36,24 @@
 
 ---
 
-## ⚠️ Pendientes
-
 ### 5. **Watchdog para Sesiones Bloqueadas**
-- **Objetivo:** Detectar loops/deadlocks y auto-kill
-- **Implementación:** Cron que verifica heartbeats
-- **Trigger:** Si no hay heartbeat en X minutos → restart
-- **Prioridad:** Alta
+- **Script:** `scripts/watchdog-sessions.sh`
+- **Checks:** Último heartbeat, memoria del proceso gateway
+- **Trigger:** Si >15min sin heartbeat → restart gateway
+- **Alertas:** Telegram vía wake API
+- **Cron:** Cada 5 minutos (job id: e66bb9e2-e948-4ae5-a658-e953df09429a)
+- **Log:** Incidentes en `memory/incidents.md`
+- **Status:** ✅ Implementado desde 2026-02-08 15:09
 
 ### 6. **Gateway Auto-Restart (Systemd)**
-- **Objetivo:** Gateway corre bajo systemd con auto-restart
-- **Verificar:** ¿Gateway tiene unit systemd?
-- **Configurar:** `Restart=always` en unit file
-- **Prioridad:** Alta
+- **Unit:** `openclaw-gateway.service` (user mode)
+- **Config:** `Restart=always`, `RestartSec=5`
+- **Status:** ✅ Ya configurado (restart counter: 63+)
+- **Verificación:** `systemctl --user status openclaw-gateway`
+
+---
+
+## ⚠️ Pendientes
 
 ### 7. **Circuit Breaker por Provider**
 - **Objetivo:** Pausar provider tras N fallos consecutivos
