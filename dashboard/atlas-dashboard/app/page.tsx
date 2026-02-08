@@ -5,6 +5,8 @@ import ChatPanel from "@/app/components/ChatPanel";
 import DevStatus from "@/app/components/DevStatus";
 import SystemStatus from "@/app/components/SystemStatus";
 import Kanban from "@/app/components/Kanban";
+import StatsRow from "@/app/components/StatsRow";
+import LogsPanel from "@/app/components/LogsPanel";
 
 export default function Home() {
   return (
@@ -56,8 +58,10 @@ export default function Home() {
             </div>
           </header>
 
+          <StatsRow />
+
           {/* Proof-of-work */}
-          <div className="mt-6 rounded-2xl border border-slate-800 bg-gradient-to-br from-slate-900 to-slate-950 p-4">
+          <div className="mt-4 rounded-2xl border border-slate-800 bg-gradient-to-br from-slate-900 to-slate-950 p-4">
             <div className="text-sm text-slate-400">Proof-of-Work</div>
             <div className="mt-2 text-xs text-slate-500">No evidence yet</div>
           </div>
@@ -65,6 +69,8 @@ export default function Home() {
           <div className="mt-4 grid gap-4 md:grid-cols-2"><TaskPanel /><ChatPanel /></div>
 
           <div className="mt-4"><SystemStatus /></div>
+
+          <LogsPanel />
 
           {/* Kanban */}
           <Kanban />
