@@ -7,20 +7,18 @@ export const dynamic = "force-dynamic";
 export async function GET(req: Request) {
   const url = new URL(req.url);
   const limit = Math.min(Number(url.searchParams.get("limit") ?? 50) || 50, 200);
-  const projectId = url.searchParams.get("projectId");
 
-  const threads = await prisma.chatThread.findMany({
-    where: projectId ? { projectId } : undefined,
+  const projects = await prisma.project.findMany({
     orderBy: { updatedAt: "desc" },
     take: limit,
   });
 
-  return NextResponse.json({ threads }, { headers: { "Cache-Control": "no-store" } });
+  return NextResponse.json({ projects }, { headers: { "Cache-Control": "no-store" } });
 }
 
 export async function POST(req: Request) {
   const ip = getClientIp(req);
-  const rl = rateLimit(`threads:post:${ip}`, { windowMs: 60_000, max: 30 });
+  const rl = rateLimit(`projects:post:${ip}`, { windowMs: 60_000, max: 30 });
   if (!rl.ok) {
     return NextResponse.json({ ok: false, error: "RATE_LIMIT" }, { status: 429 });
   }
@@ -33,10 +31,9 @@ export async function POST(req: Request) {
   }
 
   const b = asObject(body);
-  const title = getString(b, "title", "Nuevo chat").slice(0, 200);
-  const projectId = getString(b, "projectId", "") || null;
+  const name = getString(b, "name", "Nuevo proyecto").slice(0, 120);
 
-  const thread = await prisma.chatThread.create({ data: { title, projectId } });
+  const project = await prisma.project.create({ data: { name } });
 
-  return NextResponse.json({ thread }, { headers: { "Cache-Control": "no-store" } });
+  return NextResponse.json({ project }, { headers: { "Cache-Control": "no-store" } });
 }

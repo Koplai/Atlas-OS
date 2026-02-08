@@ -118,9 +118,19 @@ model Artifact {
   linkedRunId String?
 }
 
+model Project {
+  id        String       @id @default(uuid())
+  name      String
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+  threads   ChatThread[]
+}
+
 model ChatThread {
   id        String       @id @default(uuid())
   title     String
+  projectId String?
+  project   Project?     @relation(fields: [projectId], references: [id], onDelete: SetNull)
   createdAt DateTime     @default(now())
   updatedAt DateTime     @updatedAt
   messages  ChatMessage[]

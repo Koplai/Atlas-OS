@@ -9,22 +9,32 @@ import { Input } from "@/app/components/ui/Input";
 import { cn } from "@/app/components/ui/cn";
 
 type Thread = { id: string; title: string; updatedAt: string };
+type Project = { id: string; name: string };
+
+const STORAGE_KEY = "atlas.selectedProjectId";
 
 export default function Sidebar() {
   const [threads, setThreads] = useState<Thread[]>([]);
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [selectedProjectId, setSelectedProjectId] = useState<string>("");
   const [q, setQ] = useState("");
 
   async function load() {
-    const res = await fetch("/api/threads?limit=100", { cache: "no-store" });
-    const data = await res.json();
-    setThreads(data.threads ?? []);
+    const [pRes, tRes] = await Promise.all([
+      fetch("/api/projects?limit=100", { cache: "no-store" }),
+      fetch(`/api/threads?limit=100${selectedProjectId ? `&projectId=${encodeURIComponent(selectedProjectId)}` : ""}`, { cache: "no-store" }),
+    ]);
+    const pData = await pRes.json();
+    const tData = await tRes.json();
+    setProjects(pData.projects ?? []);
+    setThreads(tData.threads ?? []);
   }
 
   async function createThread() {
     const res = await fetch("/api/threads", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ title: "Nuevo chat" }),
+      body: JSON.stringify({ title: "Nuevo chat", projectId: selectedProjectId || undefined }),
     });
     const data = await res.json();
     if (data.thread?.id) {
@@ -33,10 +43,29 @@ export default function Sidebar() {
     }
   }
 
+  async function createProject() {
+    const res = await fetch("/api/projects", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name: "Nuevo proyecto" }),
+    });
+    const data = await res.json();
+    if (data.project?.id) {
+      setSelectedProjectId(data.project.id);
+      localStorage.setItem(STORAGE_KEY, data.project.id);
+      await load();
+    }
+  }
+
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    load();
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) setSelectedProjectId(saved);
   }, []);
+
+  useEffect(() => {
+    void load();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedProjectId]);
 
   const filtered = threads.filter((t) =>
     !q.trim() ? true : (t.title ?? "").toLowerCase().includes(q.toLowerCase()),
@@ -60,6 +89,25 @@ export default function Sidebar() {
           className="border-0 bg-transparent px-0 py-0 text-sm focus-visible:ring-0 focus-visible:ring-offset-0"
         />
       </div>
+
+      <div className="mt-4 flex items-center justify-between">
+        <div className="text-xs font-medium text-slate-500">Projects</div>
+        <Button size="sm" variant="ghost" onClick={createProject}>+ Project</Button>
+      </div>
+
+      <select
+        value={selectedProjectId}
+        onChange={(e) => {
+          setSelectedProjectId(e.target.value);
+          localStorage.setItem(STORAGE_KEY, e.target.value);
+        }}
+        className="mt-2 w-full rounded-xl border border-slate-800 bg-slate-950/30 px-3 py-2 text-sm"
+      >
+        <option value="">All projects</option>
+        {projects.map((p) => (
+          <option key={p.id} value={p.id}>{p.name}</option>
+        ))}
+      </select>
 
       <div className="mt-4 text-xs font-medium text-slate-500">Conversations</div>
 

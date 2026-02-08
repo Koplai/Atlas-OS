@@ -23,10 +23,11 @@ export default function ChatThread(props: { threadId: string | null }) {
 
   async function ensureThread() {
     if (threadId) return threadId;
+    const selectedProjectId = typeof window !== "undefined" ? localStorage.getItem("atlas.selectedProjectId") : null;
     const res = await fetch("/api/threads", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ title: "Nuevo chat" }),
+      body: JSON.stringify({ title: "Nuevo chat", projectId: selectedProjectId || undefined }),
     });
     const data = await res.json();
     if (data.thread?.id) {
