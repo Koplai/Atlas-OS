@@ -17,7 +17,7 @@ export default function RightPanel() {
   const [tab, setTab] = useState<Tab>("Status");
 
   return (
-    <aside className="hidden w-[420px] flex-col border-l border-slate-900 bg-[#0b1118] p-4 xl:flex">
+    <aside className="hidden w-[360px] flex-col border-l border-slate-900 bg-[#0b1118] p-3 lg:flex">
       <div className="flex items-center gap-2">
         {tabs.map((t) => (
           <Button
@@ -31,7 +31,7 @@ export default function RightPanel() {
         ))}
       </div>
 
-      <div className={cn("mt-4 min-h-0 flex-1 overflow-auto pr-1")}> 
+      <div className={cn("mt-3 min-h-0 flex-1 overflow-auto pr-1")}> 
         {tab === "Status" && (
           <div className="space-y-4">
             <StatsRow />

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { Plus, Search, X } from "lucide-react";
+import { Plus, Search, X, MessageSquare, ScrollText } from "lucide-react";
 
 import { Button } from "@/app/components/ui/Button";
 import { Input } from "@/app/components/ui/Input";
@@ -95,6 +95,15 @@ export default function Sidebar(props: { mobileOpen?: boolean; onCloseMobile?: (
         />
       </div>
 
+      <nav className="mt-3 grid grid-cols-2 gap-2 text-xs">
+        <Link href="/chat" onClick={props.onCloseMobile} className="inline-flex items-center gap-2 rounded-lg border border-slate-800 bg-slate-950/30 px-2 py-1.5 text-slate-200">
+          <MessageSquare className="h-3.5 w-3.5" /> Chat
+        </Link>
+        <Link href="/ops" onClick={props.onCloseMobile} className="inline-flex items-center gap-2 rounded-lg border border-slate-800 bg-slate-950/30 px-2 py-1.5 text-slate-200">
+          <ScrollText className="h-3.5 w-3.5" /> Logs
+        </Link>
+      </nav>
+
       <div className="mt-4 flex items-center justify-between">
         <div className="text-xs font-medium text-slate-500">Projects</div>
         <Button size="sm" variant="ghost" onClick={createProject}>+ Project</Button>
@@ -138,10 +147,6 @@ export default function Sidebar(props: { mobileOpen?: boolean; onCloseMobile?: (
             </div>
           </Link>
         ))}
-      </div>
-
-      <div className="mt-3 rounded-xl border border-slate-900 bg-slate-950/20 p-3 text-xs text-slate-500">
-        Tip: el chat es tu centro de mando. Adjunta archivos o dicta por voz desde el composer.
       </div>
     </>
   );
