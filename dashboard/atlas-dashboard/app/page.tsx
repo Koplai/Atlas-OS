@@ -2,6 +2,7 @@ import { Bell, LayoutGrid, FileText, ScrollText, CircleDot } from "lucide-react"
 
 import TaskPanel from "@/app/components/TaskPanel";
 import ChatPanel from "@/app/components/ChatPanel";
+import DevStatus from "@/app/components/DevStatus";
 import Kanban from "@/app/components/Kanban";
 
 export default function Home() {
@@ -45,9 +46,12 @@ export default function Home() {
               <span className="flex items-center gap-2 text-slate-400"><FileText className="h-4 w-4"/>Docs</span>
               <span className="flex items-center gap-2 text-slate-400"><ScrollText className="h-4 w-4"/>Log</span>
             </div>
-            <div className="flex items-center gap-2 text-xs text-slate-400">
-              Last sync: —
-              <Bell className="h-4 w-4" />
+            <div className="flex items-center gap-4">
+              <DevStatus />
+              <div className="flex items-center gap-2 text-xs text-slate-400">
+                Last sync: —
+                <Bell className="h-4 w-4" />
+              </div>
             </div>
           </header>
 
