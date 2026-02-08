@@ -2,6 +2,12 @@
 
 import { useEffect, useMemo, useState } from "react";
 
+import { Badge } from "./ui/Badge";
+import { Button } from "./ui/Button";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "./ui/Card";
+import { cn } from "./ui/cn";
+import { inputClassName } from "./ui/Input";
+
 type LogEntry = {
   id: string;
   timestamp: string;
@@ -10,10 +16,11 @@ type LogEntry = {
   message: string;
 };
 
-function sevClass(sev: string) {
-  if (sev === "ERROR" || sev === "SECURITY") return "text-rose-300 border-rose-900/60 bg-rose-950/30";
-  if (sev === "WARN") return "text-amber-300 border-amber-900/60 bg-amber-950/30";
-  return "text-slate-300 border-slate-800 bg-slate-900/40";
+function sevVariant(sev: string) {
+  if (sev === "ERROR" || sev === "SECURITY") return "danger" as const;
+  if (sev === "WARN") return "warning" as const;
+  if (sev === "INFO") return "info" as const;
+  return "neutral" as const;
 }
 
 export default function LogsPanel() {
@@ -39,17 +46,17 @@ export default function LogsPanel() {
   }, [logs, severity]);
 
   return (
-    <div className="mt-4 rounded-2xl border border-slate-800 bg-slate-950/40 p-4">
-      <div className="flex items-center justify-between">
+    <Card className="mt-4">
+      <CardHeader className="flex items-start justify-between gap-3 p-4 pb-0 sm:flex-row">
         <div>
-          <div className="text-sm text-slate-400">Logs</div>
-          <div className="text-xs text-slate-500">Auto-refresh cada 10s (limitado)</div>
+          <CardTitle>Logs</CardTitle>
+          <CardDescription>Auto-refresh cada 10s (limitado)</CardDescription>
         </div>
         <div className="flex items-center gap-2 text-xs">
           <select
             value={severity}
             onChange={(e) => setSeverity(e.target.value)}
-            className="rounded-lg border border-slate-700 bg-slate-900 px-2 py-1 text-xs"
+            className={cn(inputClassName, "w-auto px-2 py-1 text-xs")}
           >
             <option value="ALL">ALL</option>
             <option value="INFO">INFO</option>
@@ -57,27 +64,31 @@ export default function LogsPanel() {
             <option value="ERROR">ERROR</option>
             <option value="SECURITY">SECURITY</option>
           </select>
-          <button
-            onClick={load}
-            className="rounded-lg border border-slate-700 px-2 py-1 text-xs text-slate-200"
-          >
+          <Button onClick={load} size="sm">
             Refresh
-          </button>
+          </Button>
         </div>
-      </div>
+      </CardHeader>
 
-      <div className="mt-3 h-64 overflow-auto rounded-lg border border-slate-900 bg-slate-950/40 p-2 text-xs">
-        {filtered.length === 0 && <div className="p-2 text-slate-500">Sin logs</div>}
-        {filtered.map((l) => (
-          <div key={l.id} className={`mb-2 rounded-lg border p-2 ${sevClass(l.severity)}`}>
-            <div className="flex items-center justify-between gap-2">
-              <div className="font-medium">{l.severity} · {l.source}</div>
-              <div className="text-[11px] text-slate-500">{new Date(l.timestamp).toLocaleTimeString()}</div>
+      <CardContent>
+        <div className="h-64 overflow-auto rounded-lg border border-slate-900 bg-slate-950/40 p-2 text-xs">
+          {filtered.length === 0 && <div className="p-2 text-slate-500">Sin logs</div>}
+          {filtered.map((l) => (
+            <div key={l.id} className="mb-2 rounded-lg border border-slate-800 bg-slate-900/40 p-2">
+              <div className="flex items-center justify-between gap-2">
+                <div className="flex items-center gap-2 font-medium text-slate-200">
+                  <Badge variant={sevVariant(l.severity)}>{l.severity}</Badge>
+                  <span className="text-slate-400">{l.source}</span>
+                </div>
+                <div className="text-[11px] text-slate-500">
+                  {new Date(l.timestamp).toLocaleTimeString()}
+                </div>
+              </div>
+              <div className="mt-1 whitespace-pre-wrap break-words text-slate-200">{l.message}</div>
             </div>
-            <div className="mt-1 whitespace-pre-wrap break-words">{l.message}</div>
-          </div>
-        ))}
-      </div>
-    </div>
+          ))}
+        </div>
+      </CardContent>
+    </Card>
   );
 }

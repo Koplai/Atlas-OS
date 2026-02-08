@@ -6,10 +6,16 @@ export const dynamic = "force-dynamic";
 
 export async function GET(req: Request) {
   const url = new URL(req.url);
-  const limit = Math.min(Number(url.searchParams.get("limit") ?? 50) || 50, 200);
+  const limit = Math.min(Number(url.searchParams.get("limit") ?? 100) || 100, 200);
+  const threadId = url.searchParams.get("threadId");
+
+  if (!threadId) {
+    return NextResponse.json({ ok: false, error: "THREAD_ID_REQUIRED" }, { status: 400 });
+  }
 
   const messages = await prisma.chatMessage.findMany({
-    orderBy: { createdAt: "desc" },
+    where: { threadId },
+    orderBy: { createdAt: "asc" },
     take: limit,
   });
 
@@ -18,7 +24,7 @@ export async function GET(req: Request) {
 
 export async function POST(req: Request) {
   const ip = getClientIp(req);
-  const rl = rateLimit(`chat:post:${ip}`, { windowMs: 60_000, max: 60 });
+  const rl = rateLimit(`chat:post:${ip}`, { windowMs: 60_000, max: 120 });
   if (!rl.ok) {
     return NextResponse.json({ ok: false, error: "RATE_LIMIT" }, { status: 429 });
   }
@@ -31,7 +37,12 @@ export async function POST(req: Request) {
   }
 
   const b = asObject(body);
+  const threadId = getString(b, "threadId", "");
   const content = getString(b, "content", "");
+
+  if (!threadId) {
+    return NextResponse.json({ ok: false, error: "THREAD_ID_REQUIRED" }, { status: 400 });
+  }
   if (!content.trim()) {
     return NextResponse.json({ ok: false, error: "CONTENT_REQUIRED" }, { status: 400 });
   }
@@ -39,11 +50,16 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: false, error: "CONTENT_TOO_LONG" }, { status: 413 });
   }
 
+  await prisma.chatThread.update({
+    where: { id: threadId },
+    data: { updatedAt: new Date() },
+  });
+
   const userMsg = await prisma.chatMessage.create({
-    data: { role: "user", content },
+    data: { threadId, role: "user", content },
   });
   const assistantMsg = await prisma.chatMessage.create({
-    data: { role: "assistant", content: "Recibido. Procesando…" },
+    data: { threadId, role: "assistant", content: "Recibido. Procesando…" },
   });
 
   return NextResponse.json(

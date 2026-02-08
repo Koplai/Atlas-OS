@@ -118,9 +118,19 @@ model Artifact {
   linkedRunId String?
 }
 
+model ChatThread {
+  id        String       @id @default(uuid())
+  title     String
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+  messages  ChatMessage[]
+}
+
 model ChatMessage {
-  id        String   @id @default(uuid())
+  id        String      @id @default(uuid())
+  threadId  String?
+  thread    ChatThread? @relation(fields: [threadId], references: [id], onDelete: SetNull)
   role      String
   content   String
-  createdAt DateTime @default(now())
+  createdAt DateTime    @default(now())
 }
