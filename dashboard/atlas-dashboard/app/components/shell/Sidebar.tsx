@@ -19,7 +19,7 @@ const navItems = [
   { href: "/projects", icon: FolderKanban, label: "Projects" },
   { href: "/ops", icon: Wrench, label: "Ops" },
   { href: "/logs", icon: ScrollText, label: "Logs" },
-  { href: "/agents/report", icon: BarChart3, label: "Report" },
+  { href: "/agents/report", icon: BarChart3, label: "Agents" },
 ];
 
 export default function Sidebar(props: { mobileOpen?: boolean; onCloseMobile?: () => void }) {

@@ -12,6 +12,7 @@ function pageTitle(pathname: string) {
   if (pathname.startsWith("/logs")) return "Logs";
   if (pathname.startsWith("/ops")) return "Ops";
   if (pathname.startsWith("/projects")) return "Projects";
+  if (pathname.startsWith("/agents/report")) return "Agents Report";
   if (pathname.startsWith("/agents")) return "Agents";
   return "Chat";
 }

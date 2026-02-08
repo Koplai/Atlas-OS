@@ -17,6 +17,18 @@ export async function runOpenClawStatus() {
   return runOpenClaw(["gateway", "status"]);
 }
 
+export async function runOpenClawGatewayStatus() {
+  return runOpenClaw(["gateway", "status"]);
+}
+
+export async function runOpenClawGatewayRestart() {
+  return runOpenClaw(["gateway", "restart"], 15_000);
+}
+
+export async function runOpenClawGatewayStart() {
+  return runOpenClaw(["gateway", "start"], 15_000);
+}
+
 export async function runOpenClawSessionsJson() {
   return runOpenClaw(["sessions", "--json"], 10_000);
 }
