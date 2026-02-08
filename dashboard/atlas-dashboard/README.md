@@ -17,9 +17,21 @@ POSTGRES_DB=atlas
 ```
 
 Auth behavior:
-- If `ATLAS_DASHBOARD_TOKEN` is set (or `NODE_ENV=production`), all `/api/*` routes require:
+- If `ATLAS_DASHBOARD_TOKEN` is set, protected `/api/*` routes require:
   - `Authorization: Bearer <token>` or header `x-atlas-token: <token>`
 - `/api/health` is always public.
+
+## Local STT (Docker)
+The stack includes a local Whisper service (`stt-whisper`) and a proxy route:
+- `POST /api/voice/stt` (multipart form-data with `file`)
+- Dashboard forwards to `STT_URL` (default: `http://stt-whisper:9000/asr`)
+
+Quick test:
+```bash
+curl -sS -X POST http://localhost:3000/api/voice/stt \
+  -H "x-atlas-token: $ATLAS_DASHBOARD_TOKEN" \
+  -F "file=@/path/to/audio.webm"
+```
 
 First, run the development server:
 
