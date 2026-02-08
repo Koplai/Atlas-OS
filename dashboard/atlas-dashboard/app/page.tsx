@@ -1,6 +1,7 @@
 import { Bell, LayoutGrid, FileText, ScrollText, CircleDot } from "lucide-react";
 
 import TaskPanel from "@/app/components/TaskPanel";
+import Kanban from "@/app/components/Kanban";
 
 export default function Home() {
   return (
@@ -58,21 +59,7 @@ export default function Home() {
           <div className="mt-4"><TaskPanel /></div>
 
           {/* Kanban */}
-          <div className="mt-6 grid gap-4 md:grid-cols-4">
-            {['TO DO','IN PROGRESS','DONE','ARCHIVE'].map((col) => (
-              <div key={col} className="rounded-2xl border border-slate-800 bg-slate-950/40 p-3">
-                <div className="flex items-center justify-between text-xs text-slate-400">
-                  <span>{col}</span>
-                  <span className="h-2 w-2 rounded-full bg-slate-600" />
-                </div>
-                <div className="mt-3 space-y-2">
-                  <div className="rounded-lg border border-slate-800 bg-slate-900/60 p-2 text-xs text-slate-300">
-                    Atlas Dashboard: Bootstrap
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
+          <Kanban />
         </section>
       </div>
     </main>
