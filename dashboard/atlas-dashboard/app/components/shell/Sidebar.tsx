@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
-import { Plus, Search, X, MessageSquare, ScrollText, FolderKanban, Bot, BarChart3 } from "lucide-react";
+import { Plus, Search, X, MessageSquare, ScrollText, FolderKanban, Wrench, BarChart3 } from "lucide-react";
 
 import { Button } from "@/app/components/ui/Button";
 import { Input } from "@/app/components/ui/Input";
@@ -16,10 +16,10 @@ const STORAGE_KEY = "atlas.selectedProjectId";
 
 const navItems = [
   { href: "/chat", icon: MessageSquare, label: "Chat" },
-  { href: "/agents", icon: Bot, label: "Agents" },
-  { href: "/agents/report", icon: BarChart3, label: "Report" },
-  { href: "/ops", icon: ScrollText, label: "Logs" },
   { href: "/projects", icon: FolderKanban, label: "Projects" },
+  { href: "/ops", icon: Wrench, label: "Ops" },
+  { href: "/logs", icon: ScrollText, label: "Logs" },
+  { href: "/agents/report", icon: BarChart3, label: "Report" },
 ];
 
 export default function Sidebar(props: { mobileOpen?: boolean; onCloseMobile?: () => void }) {

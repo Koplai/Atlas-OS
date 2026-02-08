@@ -7,15 +7,15 @@ export type ButtonSize = "sm" | "md";
 
 const variantClass: Record<ButtonVariant, string> = {
   primary:
-    "bg-indigo-600 text-white hover:bg-indigo-500 disabled:bg-indigo-600/50 disabled:text-white/70",
+    "border border-indigo-500/70 bg-indigo-600 text-white shadow-[0_8px_24px_-12px_rgba(99,102,241,0.8)] hover:bg-indigo-500 hover:border-indigo-400 disabled:bg-indigo-600/50 disabled:border-indigo-600/40 disabled:text-white/70",
   secondary:
-    "border border-slate-700 bg-transparent text-slate-200 hover:bg-slate-900/60 disabled:opacity-60",
-  ghost: "bg-transparent text-slate-200 hover:bg-slate-900/60 disabled:opacity-60",
+    "border border-slate-700/80 bg-slate-900/40 text-slate-100 hover:border-slate-600 hover:bg-slate-900/80 disabled:opacity-60",
+  ghost: "bg-transparent text-slate-300 hover:bg-slate-900/70 hover:text-slate-100 disabled:opacity-60",
 };
 
 const sizeClass: Record<ButtonSize, string> = {
-  sm: "px-2 py-1 text-xs rounded-lg",
-  md: "px-3 py-2 text-sm rounded-lg",
+  sm: "px-2.5 py-1.5 text-xs rounded-lg",
+  md: "px-3.5 py-2 text-sm rounded-xl",
 };
 
 export const Button = React.forwardRef<
@@ -30,7 +30,7 @@ export const Button = React.forwardRef<
       ref={ref}
       type={type}
       className={cn(
-        "inline-flex items-center justify-center gap-2 font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500/70 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950",
+        "inline-flex items-center justify-center gap-2 font-medium transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400/80 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950 disabled:cursor-not-allowed",
         variantClass[variant],
         sizeClass[size],
         className,

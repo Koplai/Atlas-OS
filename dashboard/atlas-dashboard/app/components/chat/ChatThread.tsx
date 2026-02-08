@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import { Sparkles } from "lucide-react";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/app/components/ui/Card";
 import { Badge } from "@/app/components/ui/Badge";
@@ -49,7 +50,6 @@ export default function ChatThread(props: { threadId: string | null }) {
     const id = await ensureThread();
     setLoading(true);
     try {
-      // MVP: attachments are not uploaded yet; we just show chips locally.
       await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -67,26 +67,28 @@ export default function ChatThread(props: { threadId: string | null }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [threadId]);
 
-  const title = useMemo(() => (ready ? "Chat con Atlas" : "Nuevo chat"), [ready]);
+  const title = useMemo(() => (ready ? "Chat" : "Nuevo chat"), [ready]);
 
   return (
     <div className="flex min-h-0 flex-1 flex-col p-3 sm:p-4 lg:p-6">
       <div className="flex items-center justify-between">
-        <div className="text-sm font-semibold text-slate-200">{title}</div>
-        <div className="flex items-center gap-2">
-          <Badge variant={loading ? "warning" : "success"}>{loading ? "Thinking" : "Ready"}</Badge>
-        </div>
+        <div className="text-sm font-semibold text-slate-100">{title}</div>
+        <Badge variant={loading ? "warning" : "success"}>{loading ? "Thinking" : "Ready"}</Badge>
       </div>
 
       <Card className="mt-3 flex min-h-0 flex-1 flex-col sm:mt-4">
-        <CardHeader className="flex-row items-center justify-between">
-          <CardTitle>Conversation</CardTitle>
+        <CardHeader className="flex-row items-center justify-between border-b border-slate-900/80 pb-3">
+          <CardTitle className="text-slate-300">Conversation</CardTitle>
           <div className="text-xs text-slate-500">{messages.length} mensajes</div>
         </CardHeader>
-        <CardContent className="min-h-0 flex-1 overflow-auto">
+        <CardContent className="min-h-0 flex-1 overflow-auto pt-4">
           {messages.length === 0 && (
-            <div className="rounded-xl border border-slate-900 bg-slate-950/20 p-4 text-sm text-slate-400">
-              Empieza aquí. Este chat será tu centro de mando (dashboard estilo ChatGPT/Claude).
+            <div className="rounded-2xl border border-dashed border-slate-800 bg-slate-950/20 p-6 text-center">
+              <div className="mx-auto inline-flex rounded-full border border-indigo-900/60 bg-indigo-950/30 p-2 text-indigo-200">
+                <Sparkles className="h-4 w-4" />
+              </div>
+              <div className="mt-3 text-sm font-medium text-slate-200">Empieza una conversación</div>
+              <div className="mt-1 text-xs text-slate-500">Pregunta, planifica o ejecuta tareas desde aquí.</div>
             </div>
           )}
 
@@ -96,8 +98,8 @@ export default function ChatThread(props: { threadId: string | null }) {
                 <div
                   className={
                     m.role === "user"
-                      ? "max-w-[90%] sm:max-w-[78%] rounded-2xl bg-indigo-600/20 px-3 py-2 text-sm text-indigo-100 border border-indigo-900/40"
-                      : "max-w-[90%] sm:max-w-[78%] rounded-2xl bg-slate-950/30 px-3 py-2 text-sm text-slate-100 border border-slate-800"
+                      ? "max-w-[90%] sm:max-w-[78%] rounded-2xl border border-indigo-800/50 bg-indigo-600/15 px-3.5 py-2.5 text-sm text-indigo-100"
+                      : "max-w-[90%] sm:max-w-[78%] rounded-2xl border border-slate-800 bg-slate-900/40 px-3.5 py-2.5 text-sm text-slate-100"
                   }
                 >
                   <div className="whitespace-pre-wrap break-words leading-relaxed">{m.content}</div>

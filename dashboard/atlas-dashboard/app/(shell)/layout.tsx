@@ -9,7 +9,8 @@ import RightPanel from "@/app/components/right/RightPanel";
 import { Button } from "@/app/components/ui/Button";
 
 function pageTitle(pathname: string) {
-  if (pathname.startsWith("/ops")) return "Ops Center";
+  if (pathname.startsWith("/logs")) return "Logs";
+  if (pathname.startsWith("/ops")) return "Ops";
   if (pathname.startsWith("/projects")) return "Projects";
   if (pathname.startsWith("/agents")) return "Agents";
   return "Chat";

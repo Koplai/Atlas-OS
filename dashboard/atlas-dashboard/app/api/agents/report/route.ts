@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 
 import { prisma } from "@/lib/prisma";
 import { runOpenClawSessionsJson } from "@/lib/exec";
+import { checkLocalLlmHealth } from "@/lib/local-llm";
 
 export const dynamic = "force-dynamic";
 
@@ -49,6 +50,11 @@ function isCloudModel(model?: string) {
   return !m.startsWith("ollama/") && !m.includes("local");
 }
 
+function isLocalModel(model?: string) {
+  if (!model) return false;
+  return !isCloudModel(model);
+}
+
 function parseAgentLabel(key: string) {
   const parts = key.split(":");
   const root = parts[1] ?? "main";
@@ -68,9 +74,10 @@ function statusFromAge(ageMs?: number) {
 }
 
 export async function GET() {
-  const [agents, sessionsRaw] = await Promise.all([
+  const [agents, sessionsRaw, localLlmHealth] = await Promise.all([
     prisma.agent.findMany({ orderBy: { name: "asc" } }),
     runOpenClawSessionsJson(),
+    checkLocalLlmHealth(),
   ]);
 
   let sessions: SessionItem[] = [];
