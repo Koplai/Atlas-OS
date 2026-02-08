@@ -2,6 +2,21 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Getting Started
 
+### Environment
+
+Create a `.env` file with:
+
+```env
+DATABASE_URL=postgresql://atlas:atlas@localhost:5432/atlas
+# Optional (recommended in prod): protect /api/*
+ATLAS_DASHBOARD_TOKEN=change-me
+```
+
+Auth behavior:
+- If `ATLAS_DASHBOARD_TOKEN` is set (or `NODE_ENV=production`), all `/api/*` routes require:
+  - `Authorization: Bearer <token>` or header `x-atlas-token: <token>`
+- `/api/health` is always public.
+
 First, run the development server:
 
 ```bash
