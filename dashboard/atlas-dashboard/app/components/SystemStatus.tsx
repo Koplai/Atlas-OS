@@ -12,6 +12,7 @@ export default function SystemStatus() {
   }
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     load();
   }, []);
 

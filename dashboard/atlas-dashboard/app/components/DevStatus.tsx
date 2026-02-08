@@ -13,6 +13,7 @@ export default function DevStatus() {
   }
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     load();
     const id = setInterval(load, 5000);
     return () => clearInterval(id);
