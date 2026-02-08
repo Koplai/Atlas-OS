@@ -2,11 +2,13 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Sparkles } from "lucide-react";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/app/components/ui/Card";
 import { Badge } from "@/app/components/ui/Badge";
 import Composer from "@/app/components/chat/Composer";
+import { cn } from "@/app/components/ui/cn";
 
 type Msg = {
   id: string;
@@ -20,8 +22,14 @@ export default function ChatThread(props: { threadId: string | null }) {
   const [messages, setMessages] = useState<Msg[]>([]);
   const [loading, setLoading] = useState(false);
   const bottomRef = useRef<HTMLDivElement | null>(null);
+  const pathname = usePathname();
 
   const ready = !!threadId;
+  const quickLinks = [
+    { href: "/projects", label: "Projects" },
+    { href: "/ops", label: "Ops" },
+    { href: "/logs", label: "Logs" },
+  ];
 
   async function ensureThread() {
     if (threadId) return threadId;
@@ -81,9 +89,23 @@ export default function ChatThread(props: { threadId: string | null }) {
           <Badge variant={loading ? "warning" : "success"}>{loading ? "Thinking" : "Ready"}</Badge>
         </div>
         <div className="mt-3 flex gap-2 overflow-x-auto pb-1 text-xs">
-          <Link href="/projects" className="shrink-0 rounded-full border border-slate-700 bg-slate-900/40 px-3 py-1.5 text-slate-300 hover:border-slate-600 hover:text-slate-100">Projects</Link>
-          <Link href="/ops" className="shrink-0 rounded-full border border-slate-700 bg-slate-900/40 px-3 py-1.5 text-slate-300 hover:border-slate-600 hover:text-slate-100">Ops</Link>
-          <Link href="/logs" className="shrink-0 rounded-full border border-slate-700 bg-slate-900/40 px-3 py-1.5 text-slate-300 hover:border-slate-600 hover:text-slate-100">Logs</Link>
+          {quickLinks.map((item) => {
+            const active = pathname === item.href || pathname.startsWith(`${item.href}/`);
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={cn(
+                  "shrink-0 rounded-full border px-3 py-1.5 transition-colors",
+                  active
+                    ? "border-indigo-500/60 bg-indigo-500/15 text-indigo-100"
+                    : "border-slate-700 bg-slate-900/40 text-slate-300 hover:border-slate-600 hover:text-slate-100",
+                )}
+              >
+                {item.label}
+              </Link>
+            );
+          })}
         </div>
       </div>
 

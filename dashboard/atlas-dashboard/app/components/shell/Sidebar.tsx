@@ -184,12 +184,12 @@ export default function Sidebar(props: { mobileOpen?: boolean; onCloseMobile?: (
 
   return (
     <>
-      <aside className="hidden w-80 flex-col border-r border-slate-900 bg-[#0b1118] p-4 lg:flex">{content}</aside>
+      <aside className="hidden w-80 flex-col border-r border-slate-900/90 bg-[#0b1118]/85 p-4 backdrop-blur-xl lg:flex">{content}</aside>
 
       <div className={cn("fixed inset-0 z-40 bg-black/50 transition-opacity lg:hidden", props.mobileOpen ? "opacity-100" : "pointer-events-none opacity-0")} onClick={props.onCloseMobile} />
       <aside
         className={cn(
-          "fixed inset-y-0 left-0 z-50 w-[86vw] max-w-sm flex-col border-r border-slate-900 bg-[#0b1118] p-4 transition-transform lg:hidden",
+          "fixed inset-y-0 left-0 z-50 w-[86vw] max-w-sm flex-col border-r border-slate-900 bg-[#0b1118]/95 p-4 backdrop-blur-xl transition-transform lg:hidden",
           props.mobileOpen ? "translate-x-0" : "-translate-x-full",
         )}
       >

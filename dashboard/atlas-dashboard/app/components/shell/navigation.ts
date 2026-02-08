@@ -11,7 +11,7 @@ export type NavItem = {
 
 export const primaryNavItems: NavItem[] = [
   {
-    href: "/chat/new",
+    href: "/chat",
     label: "Chat",
     shortLabel: "Chat",
     icon: MessageSquare,
