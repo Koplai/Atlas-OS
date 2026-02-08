@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import Link from "next/link";
 import { Sparkles } from "lucide-react";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/app/components/ui/Card";
@@ -71,9 +72,19 @@ export default function ChatThread(props: { threadId: string | null }) {
 
   return (
     <div className="flex min-h-0 flex-1 flex-col p-3 sm:p-4 lg:p-6">
-      <div className="flex items-center justify-between">
-        <div className="text-sm font-semibold text-slate-100">{title}</div>
-        <Badge variant={loading ? "warning" : "success"}>{loading ? "Thinking" : "Ready"}</Badge>
+      <div className="rounded-2xl border border-slate-800/80 bg-gradient-to-br from-slate-900/60 to-slate-950/40 p-3 sm:p-4">
+        <div className="flex items-center justify-between">
+          <div>
+            <div className="text-[11px] uppercase tracking-[0.16em] text-slate-500">Chat-first workspace</div>
+            <div className="text-sm font-semibold text-slate-100">{title}</div>
+          </div>
+          <Badge variant={loading ? "warning" : "success"}>{loading ? "Thinking" : "Ready"}</Badge>
+        </div>
+        <div className="mt-3 flex gap-2 overflow-x-auto pb-1 text-xs">
+          <Link href="/projects" className="shrink-0 rounded-full border border-slate-700 bg-slate-900/40 px-3 py-1.5 text-slate-300 hover:border-slate-600 hover:text-slate-100">Projects</Link>
+          <Link href="/ops" className="shrink-0 rounded-full border border-slate-700 bg-slate-900/40 px-3 py-1.5 text-slate-300 hover:border-slate-600 hover:text-slate-100">Ops</Link>
+          <Link href="/logs" className="shrink-0 rounded-full border border-slate-700 bg-slate-900/40 px-3 py-1.5 text-slate-300 hover:border-slate-600 hover:text-slate-100">Logs</Link>
+        </div>
       </div>
 
       <Card className="mt-3 flex min-h-0 flex-1 flex-col sm:mt-4">

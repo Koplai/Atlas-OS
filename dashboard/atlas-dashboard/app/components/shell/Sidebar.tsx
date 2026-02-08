@@ -3,24 +3,19 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
-import { Plus, Search, X, MessageSquare, ScrollText, FolderKanban, Wrench, BarChart3 } from "lucide-react";
+import { Plus, Search, X } from "lucide-react";
 
 import { Button } from "@/app/components/ui/Button";
 import { Input } from "@/app/components/ui/Input";
 import { cn } from "@/app/components/ui/cn";
+import { primaryNavItems } from "@/app/components/shell/navigation";
 
 type Thread = { id: string; title: string; updatedAt: string };
 type Project = { id: string; name: string };
 
 const STORAGE_KEY = "atlas.selectedProjectId";
 
-const navItems = [
-  { href: "/chat", icon: MessageSquare, label: "Chat" },
-  { href: "/projects", icon: FolderKanban, label: "Projects" },
-  { href: "/ops", icon: Wrench, label: "Ops" },
-  { href: "/logs", icon: ScrollText, label: "Logs" },
-  { href: "/agents/report", icon: BarChart3, label: "Agents" },
-];
+const navItems = primaryNavItems;
 
 export default function Sidebar(props: { mobileOpen?: boolean; onCloseMobile?: () => void }) {
   const pathname = usePathname();
@@ -112,22 +107,22 @@ export default function Sidebar(props: { mobileOpen?: boolean; onCloseMobile?: (
         />
       </div>
 
-      <nav className="mt-3 grid grid-cols-3 gap-2 text-xs">
+      <nav className="mt-3 -mx-1 flex gap-2 overflow-x-auto px-1 pb-1 text-xs lg:mx-0 lg:grid lg:grid-cols-2 lg:overflow-visible lg:px-0">
         {navItems.map((item) => {
-          const active = pathname === item.href || pathname.startsWith(`${item.href}/`);
+          const active = item.match(pathname);
           return (
             <Link
               key={item.href}
               href={item.href}
               onClick={props.onCloseMobile}
               className={cn(
-                "inline-flex items-center justify-center gap-1.5 rounded-xl border px-2 py-1.5 transition-all",
+                "inline-flex shrink-0 items-center justify-center gap-1.5 rounded-xl border px-3 py-2 transition-all lg:shrink",
                 active
                   ? "border-indigo-600/60 bg-indigo-600/15 text-indigo-100"
                   : "border-slate-800 bg-slate-950/30 text-slate-300 hover:border-slate-700 hover:bg-slate-900/60 hover:text-slate-100",
               )}
             >
-              <item.icon className="h-3.5 w-3.5" /> {item.label}
+              <item.icon className="h-3.5 w-3.5" /> {item.shortLabel}
             </Link>
           );
         })}

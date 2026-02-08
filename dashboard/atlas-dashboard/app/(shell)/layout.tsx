@@ -6,21 +6,14 @@ import { usePathname } from "next/navigation";
 
 import Sidebar from "@/app/components/shell/Sidebar";
 import RightPanel from "@/app/components/right/RightPanel";
+import { getPageTitle } from "@/app/components/shell/navigation";
 import { Button } from "@/app/components/ui/Button";
-
-function pageTitle(pathname: string) {
-  if (pathname.startsWith("/logs")) return "Logs";
-  if (pathname.startsWith("/ops")) return "Ops";
-  if (pathname.startsWith("/projects")) return "Projects";
-  if (pathname.startsWith("/agents/report")) return "Agents Report";
-  if (pathname.startsWith("/agents")) return "Agents";
-  return "Chat";
-}
 
 export default function ShellLayout({ children }: { children: React.ReactNode }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const pathname = usePathname();
-  const title = useMemo(() => pageTitle(pathname), [pathname]);
+  const title = useMemo(() => getPageTitle(pathname), [pathname]);
+  const isChatRoute = pathname === "/chat" || pathname.startsWith("/chat/");
 
   return (
     <main className="min-h-screen bg-[#0b1118] text-slate-100">
@@ -47,7 +40,7 @@ export default function ShellLayout({ children }: { children: React.ReactNode })
           {children}
         </section>
 
-        <RightPanel />
+        {!isChatRoute && <RightPanel />}
       </div>
     </main>
   );
