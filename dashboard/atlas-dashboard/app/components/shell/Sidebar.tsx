@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { Plus, Search } from "lucide-react";
+import { Plus, Search, X } from "lucide-react";
 
 import { Button } from "@/app/components/ui/Button";
 import { Input } from "@/app/components/ui/Input";
@@ -13,7 +13,7 @@ type Project = { id: string; name: string };
 
 const STORAGE_KEY = "atlas.selectedProjectId";
 
-export default function Sidebar() {
+export default function Sidebar(props: { mobileOpen?: boolean; onCloseMobile?: () => void }) {
   const [threads, setThreads] = useState<Thread[]>([]);
   const [projects, setProjects] = useState<Project[]>([]);
   const [selectedProjectId, setSelectedProjectId] = useState<string>("");
@@ -71,13 +71,18 @@ export default function Sidebar() {
     !q.trim() ? true : (t.title ?? "").toLowerCase().includes(q.toLowerCase()),
   );
 
-  return (
-    <aside className="hidden w-80 flex-col border-r border-slate-900 bg-[#0b1118] p-4 lg:flex">
+  const content = (
+    <>
       <div className="flex items-center justify-between">
         <div className="text-sm font-semibold tracking-wide text-slate-200">Atlas</div>
-        <Button size="sm" variant="secondary" onClick={createThread}>
-          <Plus className="h-4 w-4" /> New
-        </Button>
+        <div className="flex items-center gap-2">
+          <Button size="sm" variant="secondary" onClick={createThread}>
+            <Plus className="h-4 w-4" /> New
+          </Button>
+          <Button size="sm" variant="ghost" className="lg:hidden" onClick={props.onCloseMobile}>
+            <X className="h-4 w-4" />
+          </Button>
+        </div>
       </div>
 
       <div className="mt-3 flex items-center gap-2 rounded-xl border border-slate-800 bg-slate-950/30 px-3 py-2">
@@ -122,6 +127,7 @@ export default function Sidebar() {
           <Link
             key={t.id}
             href={`/chat/${t.id}`}
+            onClick={props.onCloseMobile}
             className={cn(
               "block rounded-xl border border-transparent px-3 py-2 text-sm text-slate-200 hover:border-slate-800 hover:bg-slate-950/30",
             )}
@@ -137,6 +143,22 @@ export default function Sidebar() {
       <div className="mt-3 rounded-xl border border-slate-900 bg-slate-950/20 p-3 text-xs text-slate-500">
         Tip: el chat es tu centro de mando. Adjunta archivos o dicta por voz desde el composer.
       </div>
-    </aside>
+    </>
+  );
+
+  return (
+    <>
+      <aside className="hidden w-80 flex-col border-r border-slate-900 bg-[#0b1118] p-4 lg:flex">{content}</aside>
+
+      <div className={cn("fixed inset-0 z-40 bg-black/50 transition-opacity lg:hidden", props.mobileOpen ? "opacity-100" : "pointer-events-none opacity-0")} onClick={props.onCloseMobile} />
+      <aside
+        className={cn(
+          "fixed inset-y-0 left-0 z-50 w-[86vw] max-w-sm flex-col border-r border-slate-900 bg-[#0b1118] p-4 transition-transform lg:hidden",
+          props.mobileOpen ? "translate-x-0" : "-translate-x-full",
+        )}
+      >
+        {content}
+      </aside>
+    </>
   );
 }

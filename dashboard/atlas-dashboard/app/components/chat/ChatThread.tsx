@@ -70,7 +70,7 @@ export default function ChatThread(props: { threadId: string | null }) {
   const title = useMemo(() => (ready ? "Chat con Atlas" : "Nuevo chat"), [ready]);
 
   return (
-    <div className="flex min-h-0 flex-1 flex-col p-4 lg:p-6">
+    <div className="flex min-h-0 flex-1 flex-col p-3 sm:p-4 lg:p-6">
       <div className="flex items-center justify-between">
         <div className="text-sm font-semibold text-slate-200">{title}</div>
         <div className="flex items-center gap-2">
@@ -78,7 +78,7 @@ export default function ChatThread(props: { threadId: string | null }) {
         </div>
       </div>
 
-      <Card className="mt-4 flex min-h-0 flex-1 flex-col">
+      <Card className="mt-3 flex min-h-0 flex-1 flex-col sm:mt-4">
         <CardHeader className="flex-row items-center justify-between">
           <CardTitle>Conversation</CardTitle>
           <div className="text-xs text-slate-500">{messages.length} mensajes</div>
@@ -96,8 +96,8 @@ export default function ChatThread(props: { threadId: string | null }) {
                 <div
                   className={
                     m.role === "user"
-                      ? "max-w-[78%] rounded-2xl bg-indigo-600/20 px-3 py-2 text-sm text-indigo-100 border border-indigo-900/40"
-                      : "max-w-[78%] rounded-2xl bg-slate-950/30 px-3 py-2 text-sm text-slate-100 border border-slate-800"
+                      ? "max-w-[90%] sm:max-w-[78%] rounded-2xl bg-indigo-600/20 px-3 py-2 text-sm text-indigo-100 border border-indigo-900/40"
+                      : "max-w-[90%] sm:max-w-[78%] rounded-2xl bg-slate-950/30 px-3 py-2 text-sm text-slate-100 border border-slate-800"
                   }
                 >
                   <div className="whitespace-pre-wrap break-words leading-relaxed">{m.content}</div>
