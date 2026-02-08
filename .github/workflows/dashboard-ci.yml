@@ -1,0 +1,46 @@
+name: dashboard-ci
+
+on:
+  pull_request:
+    paths:
+      - "dashboard/atlas-dashboard/**"
+      - ".github/workflows/dashboard-ci.yml"
+  push:
+    branches: ["master", "main"]
+    paths:
+      - "dashboard/atlas-dashboard/**"
+      - ".github/workflows/dashboard-ci.yml"
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: dashboard/atlas-dashboard
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+          cache-dependency-path: dashboard/atlas-dashboard/package-lock.json
+
+      - name: Install
+        run: npm ci
+
+      - name: Prisma generate
+        env:
+          DATABASE_URL: postgresql://user:pass@localhost:5432/db
+        run: npx prisma generate
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Build
+        env:
+          DATABASE_URL: postgresql://user:pass@localhost:5432/db
+        run: npm run build
