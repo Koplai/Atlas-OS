@@ -1,0 +1,38 @@
+# Atlas OS Backlog (prioridad activa)
+
+Fecha: 2026-02-08
+Owner: Atlas
+
+## Objetivo para mañana
+Tener integrado en Atlas OS un bloque funcional inicial de MCP + operación desde UI, manteniendo estabilidad y documentación.
+
+## P0 (mañana)
+1. Integración MCP v1 en Atlas OS (cliente MCP) ✅ *Milestone 1*
+   - Config base de servidores MCP permitidos ✅
+   - UI de estado/conectividad MCP en Ops/Agents ✅
+   - Guardrails: allowlist, permisos por tool, timeout ✅
+
+2. Operación accionable desde Atlas OS ✅ *Milestone 2*
+   - Ejecutar acciones clave desde UI (checks/restart/logs) ✅
+   - Validar fallback y error handling robusto ✅
+
+3. Observabilidad operativa
+   - Mostrar jobs activos/en cola/finalizados
+   - Visibilidad por agente + runtime local/cloud + degradación
+
+4. Documentación obligatoria
+   - Runbook de MCP
+   - Decisiones arquitectónicas
+   - Checklist de seguridad y rollback
+
+## P1 (siguiente bloque)
+- Aprobaciones para acciones sensibles
+- Mission Inbox (failed/blocked/security)
+- Mobile quick actions
+
+## Criterios de aceptación (DoD)
+- Build verde
+- Rutas funcionales
+- Flujo mínimo MCP visible y verificable
+- Cambios documentados en docs/
+- Commit + push por milestone

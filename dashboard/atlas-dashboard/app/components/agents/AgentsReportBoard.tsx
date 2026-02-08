@@ -14,6 +14,9 @@ type ReportRow = {
   kind: string;
   status: "ACTIVE" | "IDLE" | "STALE" | "UNKNOWN";
   model: string;
+  runtime: "local" | "cloud";
+  degraded: boolean;
+  fallbackActive: boolean;
   contextTokens: number;
   inputTokens: number;
   outputTokens: number;
@@ -22,8 +25,28 @@ type ReportRow = {
   lastActivityAt: string | null;
 };
 
+type McpStatusData = {
+  ok: boolean;
+  summary?: { configured: number; enabled: number; online: number };
+};
+
 type ReportData = {
   generatedAt: string;
+  localLlm?: {
+    ok: boolean;
+    checkedAt: string;
+    endpoint: string;
+    latencyMs: number;
+    error: string | null;
+    modelsCount: number | null;
+    modelNames: string[];
+    runtimeMode: string;
+  };
+  mcp?: {
+    configured: number;
+    enabled: number;
+    online: number;
+  };
   rows: ReportRow[];
   totals: {
     sessions: number;
@@ -33,6 +56,9 @@ type ReportData = {
     estimatedCostUsd: number;
     sessionsWithCost: number;
     cloudSessions: number;
+    localSessions: number;
+    degradedLocalSessions: number;
+    fallbackCloudSessions: number;
   };
 };
 
@@ -54,14 +80,20 @@ function fmtMoney(value: number | null) {
 
 export default function AgentsReportBoard() {
   const [data, setData] = useState<ReportData | null>(null);
+  const [mcp, setMcp] = useState<McpStatusData | null>(null);
   const [loading, setLoading] = useState(true);
 
   async function load() {
     setLoading(true);
     try {
-      const res = await fetch("/api/agents/report", { cache: "no-store" });
-      const json = await res.json();
-      setData(json);
+      const [reportRes, mcpRes] = await Promise.all([
+        fetch("/api/agents/report", { cache: "no-store" }),
+        fetch("/api/mcp/status", { cache: "no-store" }),
+      ]);
+      const reportJson = await reportRes.json();
+      const mcpJson = await mcpRes.json();
+      setData(reportJson);
+      setMcp(mcpJson);
     } finally {
       setLoading(false);
     }
@@ -77,7 +109,7 @@ export default function AgentsReportBoard() {
 
   return (
     <div className="space-y-4">
-      <div className="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-4">
+      <div className="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-7">
         <Card>
           <CardHeader><CardTitle className="flex items-center gap-2"><Activity className="h-4 w-4" /> Sesiones</CardTitle></CardHeader>
           <CardContent className="pt-2 text-2xl font-semibold text-slate-100">{fmtInt(data?.totals.sessions ?? 0)}</CardContent>
@@ -94,6 +126,24 @@ export default function AgentsReportBoard() {
           <CardHeader><CardTitle className="flex items-center gap-2"><DollarSign className="h-4 w-4" /> Costo estimado</CardTitle></CardHeader>
           <CardContent className="pt-2 text-2xl font-semibold text-indigo-200">{fmtMoney(data ? data.totals.estimatedCostUsd : null)}</CardContent>
         </Card>
+        <Card>
+          <CardHeader><CardTitle className="text-sm">Local LLM</CardTitle></CardHeader>
+          <CardContent className="pt-2">
+            <Badge variant={data?.localLlm?.ok ? "success" : "warning"}>{data?.localLlm?.ok ? "HEALTHY" : "DOWN"}</Badge>
+            <div className="mt-1 text-xs text-slate-400">{data?.localLlm ? `${data.localLlm.latencyMs}ms` : "—"}</div>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader><CardTitle className="text-sm">MCP</CardTitle></CardHeader>
+          <CardContent className="pt-2">
+            <Badge variant={mcp?.ok ? "success" : "warning"}>{mcp?.ok ? "ONLINE" : "DEGRADED"}</Badge>
+            <div className="mt-1 text-xs text-slate-400">{mcp?.summary ? `${mcp.summary.online}/${mcp.summary.enabled} online` : "—"}</div>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader><CardTitle className="text-sm">Fallback cloud</CardTitle></CardHeader>
+          <CardContent className="pt-2 text-2xl font-semibold text-amber-200">{fmtInt(data?.totals.fallbackCloudSessions ?? 0)}</CardContent>
+        </Card>
       </div>
 
       <Card>
@@ -101,6 +151,7 @@ export default function AgentsReportBoard() {
           <CardTitle className="text-slate-100">Observabilidad por agente/sesión</CardTitle>
           <div className="flex items-center gap-2">
             {data && <span className="text-xs text-slate-500">Actualizado: {new Date(data.generatedAt).toLocaleTimeString()}</span>}
+            {data?.localLlm?.error && <span className="text-xs text-amber-300">LLM local: {data.localLlm.error}</span>}
             <Button size="sm" variant="ghost" onClick={load} disabled={loading}>Refresh</Button>
           </div>
         </CardHeader>
@@ -112,6 +163,7 @@ export default function AgentsReportBoard() {
                 <tr>
                   <th className="px-3 py-2 text-left">Agente</th>
                   <th className="px-3 py-2 text-left">Estado</th>
+                  <th className="px-3 py-2 text-left">Runtime</th>
                   <th className="px-3 py-2 text-left">Contexto</th>
                   <th className="px-3 py-2 text-left">Input</th>
                   <th className="px-3 py-2 text-left">Output</th>
@@ -129,6 +181,11 @@ export default function AgentsReportBoard() {
                       <div className="text-xs text-slate-500">{row.kind}</div>
                     </td>
                     <td className="px-3 py-2"><Badge variant={statusVariant(row.status)}>{row.status}</Badge></td>
+                    <td className="px-3 py-2">
+                      <Badge variant={row.runtime === "local" ? "info" : "neutral"}>{row.runtime.toUpperCase()}</Badge>
+                      {row.degraded && <span className="ml-2 text-xs text-amber-300">degraded</span>}
+                      {row.fallbackActive && <span className="ml-2 text-xs text-indigo-300">fallback</span>}
+                    </td>
                     <td className="px-3 py-2">{fmtInt(row.contextTokens)}</td>
                     <td className="px-3 py-2">{fmtInt(row.inputTokens)}</td>
                     <td className="px-3 py-2">{fmtInt(row.outputTokens)}</td>
@@ -140,7 +197,7 @@ export default function AgentsReportBoard() {
                 ))}
                 {!loading && rows.length === 0 && (
                   <tr>
-                    <td colSpan={9} className="px-3 py-6 text-center text-slate-500">No hay sesiones activas reportadas por OpenClaw.</td>
+                    <td colSpan={10} className="px-3 py-6 text-center text-slate-500">No hay sesiones activas reportadas por OpenClaw.</td>
                   </tr>
                 )}
               </tbody>

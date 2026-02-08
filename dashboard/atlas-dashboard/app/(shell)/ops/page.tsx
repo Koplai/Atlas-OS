@@ -1,4 +1,5 @@
 import OpsControlCenter from "@/app/components/ops/OpsControlCenter";
+import McpStatusPanel from "@/app/components/ops/McpStatusPanel";
 
 export default function OpsPage() {
   return (
@@ -8,7 +9,10 @@ export default function OpsPage() {
         <div className="text-xs text-slate-500">Bloque operativo P0: acciones ejecutables (run checks, restart-safe) y acceso directo a logs.</div>
       </div>
 
-      <OpsControlCenter />
+      <div className="space-y-3">
+        <OpsControlCenter />
+        <McpStatusPanel />
+      </div>
     </div>
   );
 }
