@@ -1,0 +1,23 @@
+{
+  "timestamp": "2026-02-08T14:59:00Z",
+  "agent": "atlas",
+  "session": "main",
+  "context": {
+    "team_name": "Atlas Ops",
+    "model_strategy": "balance",
+    "default_model": "ollama/llama3.2:3b",
+    "analysis_model": "ollama/deepseek-r1:32b",
+    "fallback": "openrouter",
+    "pending_tasks": [
+      "Implementar Qdrant local + embeddings locales para resiliencia de memoria",
+      "Configurar OpenRouter como fallback multi-modelo",
+      "Definir matriz final de agentes con API keys y límites por agente"
+    ],
+    "recent_changes": [
+      "Renombrado agente pm → atlas",
+      "Añadido protocolo anti-bloqueo en SOUL.md",
+      "Creado memory/incidents.md"
+    ]
+  },
+  "status": "recovered_after_restart"
+}
