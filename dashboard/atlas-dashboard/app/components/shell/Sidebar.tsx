@@ -1,8 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import { Plus, Search, X, MessageSquare, ScrollText } from "lucide-react";
+import { usePathname } from "next/navigation";
+import { useEffect, useMemo, useState } from "react";
+import { Plus, Search, X, MessageSquare, ScrollText, FolderKanban, Bot } from "lucide-react";
 
 import { Button } from "@/app/components/ui/Button";
 import { Input } from "@/app/components/ui/Input";
@@ -13,7 +14,15 @@ type Project = { id: string; name: string };
 
 const STORAGE_KEY = "atlas.selectedProjectId";
 
+const navItems = [
+  { href: "/chat", icon: MessageSquare, label: "Chat" },
+  { href: "/agents", icon: Bot, label: "Agents" },
+  { href: "/ops", icon: ScrollText, label: "Logs" },
+  { href: "/projects", icon: FolderKanban, label: "Projects" },
+];
+
 export default function Sidebar(props: { mobileOpen?: boolean; onCloseMobile?: () => void }) {
+  const pathname = usePathname();
   const [threads, setThreads] = useState<Thread[]>([]);
   const [projects, setProjects] = useState<Project[]>([]);
   const [selectedProjectId, setSelectedProjectId] = useState<string>("");
@@ -67,16 +76,23 @@ export default function Sidebar(props: { mobileOpen?: boolean; onCloseMobile?: (
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedProjectId]);
 
-  const filtered = threads.filter((t) =>
-    !q.trim() ? true : (t.title ?? "").toLowerCase().includes(q.toLowerCase()),
+  const filtered = useMemo(
+    () =>
+      threads.filter((t) =>
+        !q.trim() ? true : (t.title ?? "").toLowerCase().includes(q.toLowerCase()),
+      ),
+    [threads, q],
   );
 
   const content = (
     <>
       <div className="flex items-center justify-between">
-        <div className="text-sm font-semibold tracking-wide text-slate-200">Atlas</div>
+        <div>
+          <div className="text-[11px] uppercase tracking-[0.16em] text-slate-500">Atlas</div>
+          <div className="text-sm font-semibold text-slate-100">Conversations</div>
+        </div>
         <div className="flex items-center gap-2">
-          <Button size="sm" variant="secondary" onClick={createThread}>
+          <Button size="sm" variant="primary" onClick={createThread}>
             <Plus className="h-4 w-4" /> New
           </Button>
           <Button size="sm" variant="ghost" className="lg:hidden" onClick={props.onCloseMobile}>
@@ -85,28 +101,40 @@ export default function Sidebar(props: { mobileOpen?: boolean; onCloseMobile?: (
         </div>
       </div>
 
-      <div className="mt-3 flex items-center gap-2 rounded-xl border border-slate-800 bg-slate-950/30 px-3 py-2">
+      <div className="mt-3 flex items-center gap-2 rounded-xl border border-slate-800 bg-slate-950/50 px-3 py-2">
         <Search className="h-4 w-4 text-slate-500" />
         <Input
           value={q}
           onChange={(e) => setQ(e.target.value)}
-          placeholder="Search"
+          placeholder="Buscar chat"
           className="border-0 bg-transparent px-0 py-0 text-sm focus-visible:ring-0 focus-visible:ring-offset-0"
         />
       </div>
 
       <nav className="mt-3 grid grid-cols-2 gap-2 text-xs">
-        <Link href="/chat" onClick={props.onCloseMobile} className="inline-flex items-center gap-2 rounded-lg border border-slate-800 bg-slate-950/30 px-2 py-1.5 text-slate-200">
-          <MessageSquare className="h-3.5 w-3.5" /> Chat
-        </Link>
-        <Link href="/ops" onClick={props.onCloseMobile} className="inline-flex items-center gap-2 rounded-lg border border-slate-800 bg-slate-950/30 px-2 py-1.5 text-slate-200">
-          <ScrollText className="h-3.5 w-3.5" /> Logs
-        </Link>
+        {navItems.map((item) => {
+          const active = pathname === item.href || pathname.startsWith(`${item.href}/`);
+          return (
+            <Link
+              key={item.href}
+              href={item.href}
+              onClick={props.onCloseMobile}
+              className={cn(
+                "inline-flex items-center justify-center gap-1.5 rounded-xl border px-2 py-1.5 transition-all",
+                active
+                  ? "border-indigo-600/60 bg-indigo-600/15 text-indigo-100"
+                  : "border-slate-800 bg-slate-950/30 text-slate-300 hover:border-slate-700 hover:bg-slate-900/60 hover:text-slate-100",
+              )}
+            >
+              <item.icon className="h-3.5 w-3.5" /> {item.label}
+            </Link>
+          );
+        })}
       </nav>
 
       <div className="mt-4 flex items-center justify-between">
-        <div className="text-xs font-medium text-slate-500">Projects</div>
-        <Button size="sm" variant="ghost" onClick={createProject}>+ Project</Button>
+        <div className="text-xs font-medium text-slate-500">Proyecto</div>
+        <Button size="sm" variant="ghost" onClick={createProject}>+ Nuevo</Button>
       </div>
 
       <select
@@ -115,38 +143,45 @@ export default function Sidebar(props: { mobileOpen?: boolean; onCloseMobile?: (
           setSelectedProjectId(e.target.value);
           localStorage.setItem(STORAGE_KEY, e.target.value);
         }}
-        className="mt-2 w-full rounded-xl border border-slate-800 bg-slate-950/30 px-3 py-2 text-sm"
+        className="mt-2 w-full rounded-xl border border-slate-800 bg-slate-950/40 px-3 py-2 text-sm text-slate-200 outline-none transition-colors hover:border-slate-700 focus:border-indigo-500"
       >
-        <option value="">All projects</option>
+        <option value="">Todos los proyectos</option>
         {projects.map((p) => (
           <option key={p.id} value={p.id}>{p.name}</option>
         ))}
       </select>
 
-      <div className="mt-4 text-xs font-medium text-slate-500">Conversations</div>
+      <div className="mt-4 text-xs font-medium text-slate-500">Historial</div>
 
-      <div className="mt-2 min-h-0 flex-1 space-y-1 overflow-auto pr-1">
+      <div className="mt-2 min-h-0 flex-1 space-y-1.5 overflow-auto pr-1">
         {filtered.length === 0 && (
-          <div className="rounded-xl border border-slate-900 bg-slate-950/20 p-3 text-xs text-slate-500">
-            No chats yet.
+          <div className="rounded-xl border border-dashed border-slate-800 bg-slate-950/20 p-4 text-center">
+            <div className="text-sm text-slate-300">Sin conversaciones</div>
+            <div className="mt-1 text-xs text-slate-500">Crea un chat para empezar en este proyecto.</div>
           </div>
         )}
 
-        {filtered.map((t) => (
-          <Link
-            key={t.id}
-            href={`/chat/${t.id}`}
-            onClick={props.onCloseMobile}
-            className={cn(
-              "block rounded-xl border border-transparent px-3 py-2 text-sm text-slate-200 hover:border-slate-800 hover:bg-slate-950/30",
-            )}
-          >
-            <div className="truncate">{t.title}</div>
-            <div className="mt-1 text-[11px] text-slate-500">
-              {new Date(t.updatedAt).toLocaleString()}
-            </div>
-          </Link>
-        ))}
+        {filtered.map((t) => {
+          const active = pathname === `/chat/${t.id}`;
+          return (
+            <Link
+              key={t.id}
+              href={`/chat/${t.id}`}
+              onClick={props.onCloseMobile}
+              className={cn(
+                "block rounded-xl border px-3 py-2 text-sm transition-all",
+                active
+                  ? "border-indigo-700/60 bg-indigo-600/10 text-slate-100"
+                  : "border-transparent text-slate-300 hover:border-slate-800 hover:bg-slate-950/40 hover:text-slate-100",
+              )}
+            >
+              <div className="truncate font-medium">{t.title}</div>
+              <div className="mt-1 text-[11px] text-slate-500">
+                {new Date(t.updatedAt).toLocaleString()}
+              </div>
+            </Link>
+          );
+        })}
       </div>
     </>
   );
