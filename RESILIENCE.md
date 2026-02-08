@@ -41,9 +41,9 @@
 - **Checks:** Último heartbeat, memoria del proceso gateway
 - **Trigger:** Si >15min sin heartbeat → restart gateway
 - **Alertas:** Telegram vía wake API
-- **Cron:** Cada 5 minutos (job id: e66bb9e2-e948-4ae5-a658-e953df09429a)
+- **Systemd Timer:** `openclaw-watchdog.timer` (cada 5min, independiente de gateway)
 - **Log:** Incidentes en `memory/incidents.md`
-- **Status:** ✅ Implementado desde 2026-02-08 15:09
+- **Status:** ✅ Implementado desde 2026-02-08 15:09, mejorado 15:13 (systemd timer)
 
 ### 6. **Gateway Auto-Restart (Systemd)**
 - **Unit:** `openclaw-gateway.service` (user mode)
@@ -51,11 +51,27 @@
 - **Status:** ✅ Ya configurado (restart counter: 63+)
 - **Verificación:** `systemctl --user status openclaw-gateway`
 
+### 7. **Circuit Breaker por Provider**
+- **Script:** `scripts/circuit-breaker-check.sh`
+- **Estado:** `scripts/circuit-breaker-state.json`
+- **Umbral:** 3 fallos consecutivos → abrir circuit
+- **Timeout:** 5 min en estado abierto → half-open (1 retry)
+- **Providers:** ollama, openrouter
+- **Actions:** check-state, record-success, record-failure
+- **Status:** ✅ Implementado 2026-02-08 15:13
+
+### 8. **Health Endpoint HTTP**
+- **Script:** `scripts/health-endpoint.sh`
+- **Checks:** Gateway systemd, Ollama API, memoria DB, circuit breakers
+- **Output:** JSON con status (healthy/degraded/unhealthy)
+- **Usage:** `cd scripts && ./health-endpoint.sh`
+- **Status:** ✅ Implementado 2026-02-08 15:13
+
 ---
 
 ## ⚠️ Pendientes
 
-### 7. **Circuit Breaker por Provider**
+### 9. **Métricas Centralizadas (Prometheus)**
 - **Objetivo:** Pausar provider tras N fallos consecutivos
 - **Implementación:** Contador de fallos + cooldown
 - **Fallback:** Switch automático a siguiente provider

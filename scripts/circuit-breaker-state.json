@@ -1,0 +1,23 @@
+{
+  "providers": {
+    "ollama": {
+      "state": "closed",
+      "failures": 0,
+      "lastFailureMs": 0,
+      "lastSuccessMs": 0,
+      "openedAtMs": 0
+    },
+    "openrouter": {
+      "state": "closed",
+      "failures": 0,
+      "lastFailureMs": 0,
+      "lastSuccessMs": 0,
+      "openedAtMs": 0
+    }
+  },
+  "config": {
+    "failureThreshold": 3,
+    "timeoutMs": 300000,
+    "halfOpenRetryDelayMs": 60000
+  }
+}
