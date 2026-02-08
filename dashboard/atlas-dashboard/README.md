@@ -4,12 +4,16 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ### Environment
 
-Create a `.env` file with:
+Create a `.env` file (you can start from `.env.example`) with:
 
 ```env
-DATABASE_URL=postgresql://atlas:atlas@localhost:5432/atlas
+DATABASE_URL=postgresql://atlas:atlas@db:5432/atlas
 # Optional (recommended in prod): protect /api/*
 ATLAS_DASHBOARD_TOKEN=change-me
+
+POSTGRES_USER=atlas
+POSTGRES_PASSWORD=atlas
+POSTGRES_DB=atlas
 ```
 
 Auth behavior:
