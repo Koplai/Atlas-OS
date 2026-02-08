@@ -18,10 +18,10 @@ export function middleware(req: NextRequest) {
 
   // Dev-friendly default: if no token configured, do not block.
   // In production (or once token is set), require Bearer auth.
-  const mustAuth = process.env.NODE_ENV === "production" || !!token;
+  // Only enforce app-level auth if a token is explicitly configured.
+  // (Cloudflare Access can be the outer auth layer.)
+  const mustAuth = !!token;
   if (!mustAuth) return NextResponse.next();
-
-  if (!token) return unauthorized();
 
   const auth = req.headers.get("authorization") ?? "";
   const bearer = auth.toLowerCase().startsWith("bearer ") ? auth.slice(7).trim() : "";
