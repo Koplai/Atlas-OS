@@ -12,6 +12,7 @@ scripts/circuit-breaker-state.json
 credentials/
 *.token
 *.key
+.secrets/
 
 # Logs
 logs/
