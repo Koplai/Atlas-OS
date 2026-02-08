@@ -1,6 +1,7 @@
 FROM node:22-slim
 WORKDIR /app
-RUN apt-get update && apt-get install -y openssl && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y openssl git && rm -rf /var/lib/apt/lists/*
+RUN npm i -g openclaw
 COPY package*.json ./
 RUN npm ci
 COPY . .

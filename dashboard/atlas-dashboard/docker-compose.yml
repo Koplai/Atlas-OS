@@ -6,8 +6,13 @@ services:
     restart: unless-stopped
     environment:
       - DATABASE_URL=postgresql://atlas:atlas@db:5432/atlas
+      - NODE_PATH=/usr/lib/node_modules
     depends_on:
       - db
+    volumes:
+      - /usr/bin/openclaw:/usr/bin/openclaw:ro
+      - /usr/lib/node_modules:/usr/lib/node_modules:ro
+      - /root/.openclaw:/root/.openclaw:ro
   db:
     image: postgres:16-alpine
     environment:
