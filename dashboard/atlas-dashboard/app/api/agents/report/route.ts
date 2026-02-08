@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { runOpenClawSessionsJson } from "@/lib/exec";
 import { checkLocalLlmHealth } from "@/lib/local-llm";
+import { checkMcpServerStatus, getMcpServers } from "@/lib/mcp";
 
 export const dynamic = "force-dynamic";
 
@@ -74,10 +75,11 @@ function statusFromAge(ageMs?: number) {
 }
 
 export async function GET() {
-  const [agents, sessionsRaw, localLlmHealth] = await Promise.all([
+  const [agents, sessionsRaw, localLlmHealth, mcpStatuses] = await Promise.all([
     prisma.agent.findMany({ orderBy: { name: "asc" } }),
     runOpenClawSessionsJson(),
     checkLocalLlmHealth(),
+    Promise.all(getMcpServers().map((s) => checkMcpServerStatus(s))),
   ]);
 
   let sessions: SessionItem[] = [];
@@ -94,11 +96,15 @@ export async function GET() {
     const outputTokens = s.outputTokens ?? 0;
     const totalTokens = s.totalTokens ?? inputTokens + outputTokens;
     const contextTokens = s.contextTokens ?? 0;
+    const isCloud = isCloudModel(s.model);
+    const isLocal = isLocalModel(s.model);
 
     const priceRule = resolvePriceRule(s.model);
     const estimatedCostUsd = priceRule
       ? (inputTokens / 1_000_000) * priceRule.inputPer1M + (outputTokens / 1_000_000) * priceRule.outputPer1M
       : null;
+
+    const degraded = isLocal && !localLlmHealth.ok;
 
     return {
       key: s.key,
@@ -107,7 +113,10 @@ export async function GET() {
       kind: s.kind ?? "direct",
       status: statusFromAge(s.ageMs),
       model,
-      isCloud: isCloudModel(s.model),
+      runtime: isCloud ? "cloud" : "local",
+      degraded,
+      fallbackActive: isCloud && !localLlmHealth.ok,
+      isCloud,
       contextTokens,
       inputTokens,
       outputTokens,
@@ -131,6 +140,9 @@ export async function GET() {
         acc.sessionsWithCost += 1;
       }
       if (row.isCloud) acc.cloudSessions += 1;
+      if (row.runtime === "local") acc.localSessions += 1;
+      if (row.degraded) acc.degradedLocalSessions += 1;
+      if (row.fallbackActive) acc.fallbackCloudSessions += 1;
       return acc;
     },
     {
@@ -143,13 +155,38 @@ export async function GET() {
       estimatedCostUsd: 0,
       sessionsWithCost: 0,
       cloudSessions: 0,
+      localSessions: 0,
+      degradedLocalSessions: 0,
+      fallbackCloudSessions: 0,
     },
   );
+
+  const runtimeMode = !localLlmHealth.ok
+    ? totals.localSessions > 0
+      ? totals.cloudSessions > 0
+        ? "degraded-fallback-cloud"
+        : "degraded-no-fallback"
+      : totals.cloudSessions > 0
+        ? "fallback-cloud-only"
+        : "local-down-idle"
+    : totals.localSessions > 0
+      ? "local-healthy"
+      : "local-healthy-idle";
 
   return NextResponse.json(
     {
       generatedAt: new Date().toISOString(),
       configuredAgents: agents.map((a) => ({ id: a.id, name: a.name, status: a.status })),
+      localLlm: {
+        ...localLlmHealth,
+        runtimeMode,
+      },
+      mcp: {
+        configured: mcpStatuses.length,
+        enabled: mcpStatuses.filter((s) => s.enabled).length,
+        online: mcpStatuses.filter((s) => s.ok).length,
+        servers: mcpStatuses,
+      },
       rows,
       totals,
     },

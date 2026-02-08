@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { RefreshCw, ShieldCheck, ScrollText, RotateCcw, PlugZap, Play } from "lucide-react";
 
@@ -89,19 +89,19 @@ export default function OpsControlCenter() {
     }
   }
 
-  async function loadMcpStatus() {
+  const loadMcpStatus = useCallback(async () => {
     setBusy("mcpStatus");
     try {
       const res = await fetch("/api/mcp/status", { cache: "no-store" });
       const data = (await res.json()) as McpStatusResponse;
       setMcpStatus(data);
-      if (!selectedServerId && data.servers?.[0]?.id) setSelectedServerId(data.servers[0].id);
+      setSelectedServerId((prev) => prev || data.servers?.[0]?.id || "");
     } catch {
       setMcpStatus(null);
     } finally {
       setBusy(null);
     }
-  }
+  }, []);
 
   async function executeMcpTool() {
     let parsedArgs: unknown = {};
@@ -131,7 +131,7 @@ export default function OpsControlCenter() {
 
   useEffect(() => {
     void loadMcpStatus();
-  }, []);
+  }, [loadMcpStatus]);
 
   const selectedServer = useMemo(
     () => mcpStatus?.servers?.find((s) => s.id === selectedServerId) ?? null,
