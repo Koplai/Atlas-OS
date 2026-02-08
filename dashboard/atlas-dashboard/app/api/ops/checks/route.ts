@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { runOpenClawGatewayStatus } from "@/lib/exec";
+import { checkMcpServerStatus, getMcpServers } from "@/lib/mcp";
 
 export const dynamic = "force-dynamic";
 
@@ -11,6 +12,7 @@ export async function POST() {
     gateway: { ok: false, detail: "" },
     database: { ok: false, detail: "" },
     recentErrors: { ok: true, detail: "0" },
+    mcp: { ok: false, detail: "0/0" },
   };
 
   try {
@@ -43,7 +45,18 @@ export async function POST() {
     checks.recentErrors.detail = "N/A";
   }
 
-  const ok = checks.gateway.ok && checks.database.ok;
+  try {
+    const statuses = await Promise.all(getMcpServers().map((s) => checkMcpServerStatus(s)));
+    const enabled = statuses.filter((s) => s.enabled).length;
+    const online = statuses.filter((s) => s.ok).length;
+    checks.mcp.detail = `${online}/${enabled}`;
+    checks.mcp.ok = enabled === 0 || online > 0;
+  } catch {
+    checks.mcp.ok = false;
+    checks.mcp.detail = "N/A";
+  }
+
+  const ok = checks.gateway.ok && checks.database.ok && checks.mcp.ok;
 
   return NextResponse.json(
     {
