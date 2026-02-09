@@ -29,6 +29,7 @@ Tener integrado en Atlas OS un bloque funcional inicial de MCP + operación desd
 - Aprobaciones para acciones sensibles
 - Mission Inbox (failed/blocked/security)
 - Mobile quick actions
+- Cost tracker en Atlas OS (tokens/coste por sesión, por agente y agregado diario/semanal)
 
 ## Criterios de aceptación (DoD)
 - Build verde
