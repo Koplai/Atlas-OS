@@ -148,3 +148,54 @@ Contexto: ejecución de loop programado, condicionado a ausencia de urgencias P0
 - Validar 2 verticales concretos (ej. asesorías y clínicas).
 - Entrevistar 8-12 pymes sobre dolores repetitivos y presupuesto mensual real.
 - Construir pricing con 3 tiers y criterios de descarte de clientes no-fit.
+
+---
+
+## 8) Ciclo adicional (04:30 CET) — refinamiento operativo
+
+### 8.1 Estado de prioridad Atlas OS
+- Revalidado backlog y bloque operativo P0/P1: hay mejoras pendientes, pero **sin incidencia crítica activa** en este momento.
+- Condición del loop cumplida: continuar con I+D side hustle.
+
+### 8.2 Hallazgos nuevos (fuentes verificadas)
+1. **SME Definition (Comisión Europea)**
+   - Confirma que las pymes representan **99% de los negocios** y define umbrales por empleados/facturación.
+   - URL: https://single-market-economy.ec.europa.eu/smes/sme-fundamentals/sme-definition_en
+   - Implicación: mantiene foco en ofertas productizadas para micro/pequeña empresa.
+
+2. **Kit Digital (Acelera Pyme / Red.es)**
+   - Mantiene programa para pymes/autónomos y canal de marketplace de agentes digitalizadores.
+   - URL: https://www.acelerapyme.gob.es/kit-digital
+   - Implicación: posicionar propuesta como "cofinanciable" o "complementaria" reduce fricción comercial.
+
+3. **INCIBE Empresas (actualizaciones 2025-2026)**
+   - Publicaciones recientes sobre BEC, respuesta a incidente y ciberhigiene operativa.
+   - URL: https://www.incibe.es/empresas
+   - Implicación: hay demanda sostenida para paquetes de seguridad práctica en pymes.
+
+4. **AI Act oficial (EUR-Lex)**
+   - Reglamento (UE) 2024/1689 con marco armonizado para IA en la UE.
+   - URL: https://eur-lex.europa.eu/eli/reg/2024/1689/oj
+   - Implicación: oportunidad en "gobernanza ligera de IA" para empresas que ya usan IA sin política interna.
+
+### 8.3 Ajuste de priorización (por facilidad de venta)
+1. **Oferta principal (entrada):** Automatización Operativa Pyme (rápida y medible).
+2. **Oferta de continuidad (upsell):** AI Compliance Starter (política + inventario + controles mínimos).
+3. **Oferta recurrente (retención):** Ciberhigiene 30 días (MRR bajo, valor estable).
+
+### 8.4 Experimentos mínimos para próximos 7 días
+- **X1 — Auditoría express de procesos (30 min, gratis, 5 plazas)**
+  - Objetivo: convertir 20-40% a propuesta pagada.
+- **X2 — Oferta "2 automatizaciones en 10 días"**
+  - Precio test: 490€ (sin mantenimiento) vs 790€ (incluye 30 días soporte).
+- **X3 — Checklist IA Responsable (lead magnet)**
+  - Objetivo: 20 descargas + 3 calls cualificadas.
+
+### 8.5 Riesgos inmediatos + controles
+- **Riesgo:** scope creep en pilotos → **Control:** alcance cerrado por escrito + exclusiones explícitas.
+- **Riesgo:** dependencia de APIs externas → **Control:** cláusula de terceros + plan manual fallback.
+- **Riesgo:** confusión legal en compliance IA → **Control:** mensaje estándar "no asesoría jurídica" + derivación a legal cuando aplique.
+
+### 8.6 Nota operativa de tooling
+- `web_search` no disponible en este entorno por falta de `BRAVE_API_KEY`.
+- Mitigación aplicada: validación con `web_fetch` sobre fuentes oficiales directas.
