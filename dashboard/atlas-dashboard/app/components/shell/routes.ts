@@ -19,12 +19,19 @@ export const CANONICAL_REDIRECTS: Record<string, string> = {
   "/chats": ROUTES.CHAT,
   "/chat/": ROUTES.CHAT,
   "/chat/new/": ROUTES.CHAT_NEW,
+  "/chat/new-chat": ROUTES.CHAT_NEW,
+  "/workspace/projects": ROUTES.PROJECTS,
+  "/workspace/ops": ROUTES.OPS,
+  "/workspace/logs": ROUTES.LOGS,
 };
 
 export function normalizeRoutePath(pathname: string) {
   if (!pathname) return pathname;
   if (pathname === "/") return "/";
-  return pathname.endsWith("/") ? pathname.slice(0, -1) : pathname;
+
+  // Collapse duplicated slashes and trim trailing slash to keep route checks deterministic.
+  const collapsed = pathname.replace(/\/+/g, "/");
+  return collapsed.endsWith("/") ? collapsed.slice(0, -1) : collapsed;
 }
 
 export function resolveCanonicalPath(pathname: string) {

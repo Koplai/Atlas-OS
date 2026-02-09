@@ -13,8 +13,8 @@ export default function MobileDock() {
   const pathname = usePathname();
 
   return (
-    <nav className="fixed inset-x-0 bottom-0 z-40 border-t border-slate-800/90 bg-[#0b1118]/95 px-2 pb-[calc(env(safe-area-inset-bottom)+0.35rem)] pt-2 backdrop-blur lg:hidden">
-      <div className="mx-auto grid max-w-xl grid-cols-4 gap-1">
+    <nav className="fixed inset-x-0 bottom-0 z-40 px-2 pb-[calc(env(safe-area-inset-bottom)+0.45rem)] pt-2 lg:hidden">
+      <div className="mx-auto grid max-w-xl grid-cols-4 gap-1 rounded-2xl border border-slate-800/90 bg-[#0b1118]/90 p-1.5 shadow-[0_18px_60px_rgba(2,6,23,.6)] backdrop-blur-2xl">
         {dockItems.map((item) => {
           const active = item.match(pathname);
           return (

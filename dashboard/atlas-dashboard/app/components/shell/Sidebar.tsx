@@ -8,7 +8,7 @@ import { Plus, Search, X } from "lucide-react";
 import { Button } from "@/app/components/ui/Button";
 import { Input } from "@/app/components/ui/Input";
 import { cn } from "@/app/components/ui/cn";
-import { primaryNavItems } from "@/app/components/shell/navigation";
+import { primaryNavItems, workspaceSections } from "@/app/components/shell/navigation";
 import { ROUTES } from "@/app/components/shell/routes";
 
 type Thread = { id: string; title: string; updatedAt: string };
@@ -16,7 +16,8 @@ type Project = { id: string; name: string };
 
 const STORAGE_KEY = "atlas.selectedProjectId";
 
-const navItems = primaryNavItems;
+const navItems = workspaceSections;
+const agentsItem = primaryNavItems.find((item) => item.href === ROUTES.AGENTS);
 
 export default function Sidebar(props: { mobileOpen?: boolean; onCloseMobile?: () => void }) {
   const pathname = usePathname();
@@ -137,6 +138,22 @@ export default function Sidebar(props: { mobileOpen?: boolean; onCloseMobile?: (
           );
         })}
       </nav>
+
+      {agentsItem && (
+        <Link
+          href={agentsItem.href}
+          onClick={props.onCloseMobile}
+          className={cn(
+            "mt-2 inline-flex items-center justify-center gap-1.5 rounded-xl border px-3 py-2 text-xs transition-all",
+            agentsItem.match(pathname)
+              ? "border-indigo-600/60 bg-indigo-600/15 text-indigo-100"
+              : "border-slate-800 bg-slate-950/30 text-slate-300 hover:border-slate-700 hover:bg-slate-900/60 hover:text-slate-100",
+          )}
+        >
+          <agentsItem.icon className="h-3.5 w-3.5" />
+          {agentsItem.label}
+        </Link>
+      )}
 
       <div className="mt-4 flex items-center justify-between">
         <div className="text-xs font-medium text-slate-500">Proyecto</div>
