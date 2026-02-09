@@ -70,7 +70,7 @@ export default function Composer(props: {
   }, []);
 
   return (
-    <CardFooter className="border-t border-slate-900 bg-[#0b1118]/30 pt-3">
+    <CardFooter className="sticky bottom-0 border-t border-slate-900 bg-[#0b1118]/80 pt-3 backdrop-blur-xl">
       {files.length > 0 && (
         <div className="mb-3 flex flex-wrap gap-2">
           {files.map((f, idx) => (
@@ -119,7 +119,7 @@ export default function Composer(props: {
           value={text}
           onChange={(e) => setText(e.target.value)}
           placeholder="Escribe a Atlas…"
-          className="min-h-[44px] w-full resize-none rounded-xl border border-slate-800 bg-slate-950/40 px-3 py-2 text-sm text-slate-100 placeholder:text-slate-500 transition-colors hover:border-slate-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400/80"
+          className="min-h-[44px] max-h-36 w-full resize-none rounded-xl border border-slate-800 bg-slate-950/50 px-3 py-2 text-sm text-slate-100 placeholder:text-slate-500 transition-colors hover:border-slate-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400/80"
           onKeyDown={(e) => {
             if (e.key === "Enter" && !e.shiftKey) {
               e.preventDefault();
