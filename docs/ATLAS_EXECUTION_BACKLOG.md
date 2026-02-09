@@ -15,3 +15,4 @@
 - [ ] Seguridad continua: ciclo de revisión + sugerencias accionables por bloque.
 - [ ] Governance: retentions policies operativas (datos, logs, evidencias, borrado seguro).
 - [ ] RBAC para agentes: roles/permisos mínimos + matriz de autorizaciones + auditoría de decisiones.
+- [ ] Proyecto: Arquitectura distribuida multi-nodo (WSL + Synology1 + Synology2) para agentes/OpenClaw workers, con plan por fases, capacity planning y DR.
