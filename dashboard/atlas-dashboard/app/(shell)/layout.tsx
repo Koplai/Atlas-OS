@@ -1,20 +1,23 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import Link from "next/link";
 import { Menu, Sparkles } from "lucide-react";
 import { usePathname } from "next/navigation";
 
 import Sidebar from "@/app/components/shell/Sidebar";
 import MobileDock from "@/app/components/shell/MobileDock";
 import RightPanel from "@/app/components/right/RightPanel";
-import { getPageTitle } from "@/app/components/shell/navigation";
+import { getPageTitle, primaryNavItems } from "@/app/components/shell/navigation";
 import { Button } from "@/app/components/ui/Button";
+import { cn } from "@/app/components/ui/cn";
 
 export default function ShellLayout({ children }: { children: React.ReactNode }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const pathname = usePathname();
   const title = useMemo(() => getPageTitle(pathname), [pathname]);
   const isChatRoute = pathname === "/chat" || pathname.startsWith("/chat/");
+  const routeChips = primaryNavItems.filter((item) => ["/chat", "/projects", "/ops", "/logs"].includes(item.href));
 
   return (
     <main className="relative min-h-screen overflow-hidden bg-[#0b1118] text-slate-100">
@@ -24,20 +27,43 @@ export default function ShellLayout({ children }: { children: React.ReactNode })
         <Sidebar mobileOpen={mobileOpen} onCloseMobile={() => setMobileOpen(false)} />
 
         <section className="flex min-w-0 flex-1 flex-col pb-20 lg:pb-0">
-          <header className="sticky top-0 z-30 flex items-center justify-between border-b border-slate-800/80 bg-[#0b1118]/85 px-3 py-2.5 backdrop-blur-xl sm:px-4 lg:px-6">
-            <div className="min-w-0">
-              <div className="text-[11px] uppercase tracking-[0.16em] text-slate-500">Atlas Workspace</div>
-              <div className="truncate text-sm font-semibold text-slate-100">{title}</div>
+          <header className="sticky top-0 z-30 border-b border-slate-800/80 bg-[#0b1118]/85 px-3 py-2.5 backdrop-blur-xl sm:px-4 lg:px-6">
+            <div className="flex items-center justify-between">
+              <div className="min-w-0">
+                <div className="text-[11px] uppercase tracking-[0.16em] text-slate-500">Atlas Workspace</div>
+                <div className="truncate text-sm font-semibold text-slate-100">{title}</div>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <div className="hidden items-center gap-1 rounded-full border border-indigo-500/30 bg-indigo-500/10 px-2.5 py-1 text-xs text-indigo-100 sm:inline-flex">
+                  <Sparkles className="h-3.5 w-3.5 text-indigo-300" />
+                  Premium UI
+                </div>
+                <Button size="sm" variant="secondary" className="lg:hidden" onClick={() => setMobileOpen(true)}>
+                  <Menu className="h-4 w-4" />
+                </Button>
+              </div>
             </div>
 
-            <div className="flex items-center gap-2">
-              <div className="hidden items-center gap-1 rounded-full border border-indigo-500/30 bg-indigo-500/10 px-2.5 py-1 text-xs text-indigo-100 sm:inline-flex">
-                <Sparkles className="h-3.5 w-3.5 text-indigo-300" />
-                Premium UI
-              </div>
-              <Button size="sm" variant="secondary" className="lg:hidden" onClick={() => setMobileOpen(true)}>
-                <Menu className="h-4 w-4" />
-              </Button>
+            <div className="mt-2 hidden gap-1.5 overflow-x-auto pb-0.5 lg:flex">
+              {routeChips.map((item) => {
+                const active = item.match(pathname);
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className={cn(
+                      "inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs transition-colors",
+                      active
+                        ? "border-indigo-500/60 bg-indigo-500/15 text-indigo-100"
+                        : "border-slate-800 bg-slate-950/40 text-slate-300 hover:border-slate-700 hover:text-slate-100",
+                    )}
+                  >
+                    <item.icon className="h-3.5 w-3.5" />
+                    {item.label}
+                  </Link>
+                );
+              })}
             </div>
           </header>
           {children}

@@ -39,7 +39,7 @@ export const primaryNavItems: NavItem[] = [
     match: (pathname) => pathname === "/logs" || pathname.startsWith("/logs/"),
   },
   {
-    href: "/agents/report",
+    href: "/agents",
     label: "Agents",
     shortLabel: "Agents",
     icon: BarChart3,
@@ -49,9 +49,5 @@ export const primaryNavItems: NavItem[] = [
 
 export function getPageTitle(pathname: string) {
   const active = primaryNavItems.find((item) => item.match(pathname));
-  if (active) {
-    if (active.href === "/agents/report" && pathname.startsWith("/agents/report")) return "Agents Report";
-    return active.label;
-  }
-  return "Atlas";
+  return active?.label ?? "Atlas";
 }
