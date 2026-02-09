@@ -62,3 +62,44 @@ No se detectó una tarea P0/P1 explícita en este turno, así que ejecuté apren
    - `npm run typecheck`
 2. En segunda fase, activar bloqueo de merge si estabilidad >95% en 2 semanas.
 3. Definir mini guía de instrumentación OTel (nombres de spans/atributos) para servicios activos.
+
+---
+
+# Idle Learning Loop — 2026-02-09 11:30 (Europe/Madrid)
+
+## Contexto
+Sin señal de tarea P0/P1 activa en memoria ni en este turno; ejecuto ciclo de aprendizaje aplicado con foco **DevOps + Backend/Security + QA** y un cambio seguro de bajo riesgo.
+
+## Fuentes consultadas (recientes/fiables)
+1. Azure DevOps Roadmap (Microsoft)
+   - https://learn.microsoft.com/en-us/azure/devops/release-notes/features-timeline
+2. Playwright Release Notes
+   - https://playwright.dev/docs/release-notes
+3. OpenTelemetry Semantic Conventions 1.39.0
+   - https://opentelemetry.io/docs/specs/semconv/
+
+## Hallazgos accionables
+- **DevOps (Azure DevOps):** continúa la inversión en GitHub Advanced Security para Azure DevOps (secret/dependency/code scanning) y políticas de estado para alertas.  
+  **Acción recomendada:** mover el baseline de seguridad hacia escaneo automatizado y políticas en PR.
+- **QA (Playwright):** versiones recientes eliminan APIs/selectores legacy y mejoran análisis de rendimiento de tests (Speedboard/Timeline).  
+  **Acción recomendada:** mantener suite en locators modernos y revisar tests más lentos con Speedboard.
+- **Backend/Security (OTel):** semconv amplía cobertura (incluye CICD y GenAI), reforzando valor de nomenclatura estándar.  
+  **Acción recomendada:** evitar atributos ad-hoc y publicar convención mínima interna.
+
+## Cambio aplicado (seguro, bajo riesgo)
+- **Archivo:** `jpmarquezcom/package.json`
+- **Cambio:** nuevo script `audit:prod` para revisión de vulnerabilidades en dependencias de runtime:
+  - `"audit:prod": "npm audit --omit=dev --audit-level=high"`
+
+## Decisión
+- Ejecutado sólo cambio no destructivo y reversible (script de tooling).
+- No se ejecutaron instalaciones/migraciones ni hardening con impacto operativo sin aprobación.
+
+## Impacto esperado
+- Facilita control periódico de seguridad de dependencias productivas.
+- Mejora disciplina de "security checks" en ciclo de desarrollo sin alterar runtime.
+
+## Siguiente experimento
+1. Integrar `npm run audit:prod` en pipeline no bloqueante durante 1 semana.
+2. Si ruido es bajo, elevar a gate sólo para severidad alta/crítica.
+3. Documentar excepciones permitidas con caducidad (waivers temporales).
