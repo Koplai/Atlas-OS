@@ -30,6 +30,7 @@ Tener integrado en Atlas OS un bloque funcional inicial de MCP + operación desd
 - Mission Inbox (failed/blocked/security)
 - Mobile quick actions
 - Cost tracker en Atlas OS (tokens/coste por sesión, por agente y agregado diario/semanal)
+- Panel de gobernanza visible en Atlas OS: agentes/subagentes activos, modelo por agente (local/cloud), coste actual, estado ATLAS-SEC/ATLAS-GRC, configuración efectiva (USER.md/SOUL.md/policies activas) con auditoría de cambios
 
 ## P1.5 Estabilidad de operación continua
 - Protocolo "Safe Model Switch" para evitar bloqueos al alternar local/cloud (prechecks, cambio controlado, rollback automático).

@@ -24,7 +24,7 @@ flowchart LR
 - Fase 1 ✅ AtlasVault scaffold + logs + RBAC scaffold
 - Fase 2 ✅ Snapshot + validación + promoción LKG
 - Fase 3 ✅ Standby Docker
-- Fase 4 🟡 Witness PowerShell (script listo, pendiente ejecución en host Windows)
+- Fase 4 🟡 Witness PowerShell + router local (implementado, validación final en host Windows pendiente)
 - Fase 5 ⏳ Failback controlado
 
 ## Fase 0 — Evidencia
