@@ -24,7 +24,7 @@ flowchart LR
 - Fase 1 ✅ AtlasVault scaffold + logs + RBAC scaffold
 - Fase 2 ✅ Snapshot + validación + promoción LKG
 - Fase 3 ✅ Standby Docker
-- Fase 4 ⏳ Witness PowerShell
+- Fase 4 🟡 Witness PowerShell (script listo, pendiente ejecución en host Windows)
 - Fase 5 ⏳ Failback controlado
 
 ## Fase 0 — Evidencia
@@ -79,6 +79,26 @@ Validación ejecutada:
 
 Auditoría:
 - `PHASE3 | standby restore LKG ...` en `/mnt/d/AtlasVault/logs/audit.log`
+
+## Fase 4 — Witness Windows (implementado, pendiente activación)
+Artefactos:
+- `D:\AtlasVault\standby\atlas-witness.ps1`
+- `D:\AtlasVault\standby\install-witness-task.ps1`
+
+Lógica witness:
+1. Check `http://127.0.0.1:18789/health` cada 60s
+2. Si falla 3 veces consecutivas: inicia standby Docker
+3. Verifica `http://127.0.0.1:28789/health`
+4. Registra en `D:\AtlasVault\logs\witness.log` y `audit.log`
+5. Soporta `-DryRun`
+
+Comandos (EJECUTAR EN POWERSHELL WINDOWS, como admin):
+```powershell
+Set-ExecutionPolicy Bypass -Scope Process -Force
+& "D:\AtlasVault\standby\atlas-witness.ps1" -DryRun
+& "D:\AtlasVault\standby\install-witness-task.ps1"
+Get-ScheduledTask -TaskName AtlasWitness
+```
 
 ## Runbook (preview)
 - Failover: witness detecta 3 fallos → levanta standby → restaura LKG → valida `/health`
