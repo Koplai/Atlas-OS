@@ -9,7 +9,7 @@ function unauthorized() {
   return NextResponse.json({ ok: false, error: "UNAUTHORIZED" }, { status: 401 });
 }
 
-export function middleware(req: NextRequest) {
+export function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
   const canonicalPath = resolveCanonicalPath(pathname);
