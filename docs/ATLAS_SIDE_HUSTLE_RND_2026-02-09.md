@@ -237,3 +237,63 @@ Para maximizar probabilidad de ingreso en <14 días en España/UE, conviene vend
 ### 9.5 Señales de “go / no-go”
 - **GO** si en 7 días hay ≥3 llamadas cualificadas y ≥1 propuesta en negociación.
 - **NO-GO/PIVOT** si <2 llamadas cualificadas: ajustar nicho o cambiar promesa principal.
+
+---
+
+## 10) Ciclo 10:30 CET — foco en ejecución comercial (Lunes)
+
+### 10.1 Validación de condición del loop
+- Revisión rápida de `docs/ATLAS_OS_BACKLOG.md` y `docs/ATLAS_P0_OPS_BLOCK_2026-02-08.md`.
+- Existen pendientes P0/P1, pero **sin incidente crítico activo inmediato** (sin caída total, sin bloqueo operativo urgente, sin evento de seguridad en curso).
+- Se mantiene prioridad de I+D side hustle para monetización de corto plazo.
+
+### 10.2 Fuentes revalidadas (oficiales)
+1. **Comisión Europea — SME definition**
+   - Mantiene el dato estructural: las pymes representan el 99% del tejido empresarial.
+   - Refuerza estrategia de oferta productizada para micro/pequeña empresa.
+   - URL: https://single-market-economy.ec.europa.eu/smes/sme-fundamentals/sme-definition_en
+
+2. **Acelera Pyme — Kit Digital**
+   - Vigente para pymes, microempresas y autónomos; canal de marketplace para agentes digitalizadores.
+   - Refuerza narrativa comercial “cofinanciable/complementaria a subvención”.
+   - URL: https://www.acelerapyme.gob.es/kit-digital
+
+3. **INCIBE Empresas**
+   - Continúa publicando contenidos de BEC, respuesta a incidente y ciberhigiene aplicada a pyme.
+   - Confirma demanda sostenida en servicios de seguridad práctica.
+   - URL: https://www.incibe.es/empresas
+
+### 10.3 Oportunidad prioritaria de esta franja
+**Prioridad #1: Servicio B2B productizado de automatización operativa**
+- Razón: camino más corto a caja en <30 días, ticket comprensible y valor demostrable por KPI.
+- Posicionamiento: “menos tareas manuales y menos errores administrativos en 10 días”.
+
+### 10.4 Experimentos low-cost (próximas 48h)
+1. **Landing + oferta única + CTA de diagnóstico**
+   - KPI: 100 visitas / 8 leads / 3 llamadas.
+   - Coste: 0€–20€.
+
+2. **Outreach dirigido (20 cuentas no enterprise)**
+   - Nichos: asesorías, clínicas pequeñas, despachos, ecommerce local.
+   - KPI: 4 respuestas útiles / 2 llamadas / 1 propuesta enviada.
+
+3. **Oferta Founder (2 plazas)**
+   - Precio test A/B: 490€ (base) vs 790€ (+30 días soporte).
+   - KPI: 1 cierre en 7 días.
+
+### 10.5 Riesgos inmediatos + mitigación
+- **Riesgo:** mucha personalización, margen bajo.
+  - **Mitigación:** catálogo cerrado de automatizaciones (elegir 3 de 6).
+- **Riesgo:** fricción por confianza técnica.
+  - **Mitigación:** demo corta + caso antes/después + fallback manual documentado.
+- **Riesgo:** dependencia de terceros (APIs/SMTP/CRM).
+  - **Mitigación:** cláusula contractual de terceros + runbook de contingencia.
+
+### 10.6 Guardrail ético/compliance
+- No vender “cumplimiento legal total” sin asesoría jurídica.
+- No usar datos sensibles de clientes sin base y controles mínimos.
+- Transparencia explícita sobre qué partes son automatizadas con IA y cuáles requieren revisión humana.
+
+### 10.7 Nota de tooling
+- `web_search` sigue no operativo en este runtime por falta de `BRAVE_API_KEY`.
+- Se mantiene metodología de validación por `web_fetch` directo a fuentes oficiales.
