@@ -1,7 +1,7 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
-import { CANONICAL_REDIRECTS } from "@/app/components/shell/routes";
+import { resolveCanonicalPath } from "@/app/components/shell/routes";
 
 const PUBLIC_API_PATHS = new Set(["/api/health"]);
 
@@ -12,8 +12,8 @@ function unauthorized() {
 export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
-  const canonicalPath = CANONICAL_REDIRECTS[pathname];
-  if (canonicalPath) {
+  const canonicalPath = resolveCanonicalPath(pathname);
+  if (canonicalPath && canonicalPath !== pathname) {
     const url = req.nextUrl.clone();
     url.pathname = canonicalPath;
     return NextResponse.redirect(url, 308);

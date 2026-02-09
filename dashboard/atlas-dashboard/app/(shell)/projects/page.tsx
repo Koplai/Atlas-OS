@@ -25,11 +25,13 @@ export default function ProjectsPage() {
         </div>
 
         <div className="mt-4 grid gap-2 sm:grid-cols-3">
-          {quickActions.map((item) => (
+          {quickActions.map((item, idx) => (
             <Link
               key={item.href}
               href={item.href}
-              className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-slate-800 bg-slate-950/30 px-3 py-2 text-xs text-slate-300 transition-colors hover:border-slate-700 hover:text-slate-100"
+              className={idx === 0
+                ? "inline-flex items-center justify-center gap-1.5 rounded-xl border border-indigo-500/55 bg-indigo-500/15 px-3 py-2 text-xs text-indigo-100 transition-colors hover:border-indigo-400"
+                : "inline-flex items-center justify-center gap-1.5 rounded-xl border border-slate-800 bg-slate-950/30 px-3 py-2 text-xs text-slate-300 transition-colors hover:border-slate-700 hover:text-slate-100"}
             >
               <item.icon className="h-3.5 w-3.5" />
               {item.label}

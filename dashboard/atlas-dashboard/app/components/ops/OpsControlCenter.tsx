@@ -7,6 +7,7 @@ import { RefreshCw, ShieldCheck, ScrollText, RotateCcw, PlugZap, Play } from "lu
 import { Button } from "@/app/components/ui/Button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/app/components/ui/Card";
 import { Badge } from "@/app/components/ui/Badge";
+import { ROUTES } from "@/app/components/shell/routes";
 
 type CheckResponse = {
   ok: boolean;
@@ -150,7 +151,7 @@ export default function OpsControlCenter() {
             <Button onClick={runChecks} disabled={busy !== null}>
               <RefreshCw className="h-4 w-4" /> {busy === "checks" ? "Ejecutando…" : "Run checks"}
             </Button>
-            <Link href="/logs" className="text-xs text-indigo-300 hover:text-indigo-200">Ver logs</Link>
+            <Link href={ROUTES.LOGS} className="text-xs text-indigo-300 hover:text-indigo-200">Ver logs</Link>
           </div>
 
           {checks && (
@@ -175,7 +176,7 @@ export default function OpsControlCenter() {
             <Button variant="secondary" onClick={restartSafe} disabled={busy !== null}>
               <RotateCcw className="h-4 w-4" /> {busy === "restart" ? "Aplicando…" : "Restart safe"}
             </Button>
-            <Link href="/logs" className="inline-flex items-center gap-1 text-xs text-indigo-300 hover:text-indigo-200">
+            <Link href={ROUTES.LOGS} className="inline-flex items-center gap-1 text-xs text-indigo-300 hover:text-indigo-200">
               <ScrollText className="h-3.5 w-3.5" /> Logs
             </Link>
           </div>
