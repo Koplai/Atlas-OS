@@ -9,6 +9,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/app/components/ui/Ca
 import { Badge } from "@/app/components/ui/Badge";
 import Composer from "@/app/components/chat/Composer";
 import { cn } from "@/app/components/ui/cn";
+import { workspaceSections } from "@/app/components/shell/navigation";
 
 type Msg = {
   id: string;
@@ -25,11 +26,7 @@ export default function ChatThread(props: { threadId: string | null }) {
   const pathname = usePathname();
 
   const ready = !!threadId;
-  const quickLinks = [
-    { href: "/projects", label: "Projects" },
-    { href: "/ops", label: "Ops" },
-    { href: "/logs", label: "Logs" },
-  ];
+  const quickLinks = workspaceSections.filter((item) => item.href !== "/chat");
 
   async function ensureThread() {
     if (threadId) return threadId;
@@ -88,7 +85,11 @@ export default function ChatThread(props: { threadId: string | null }) {
           </div>
           <Badge variant={loading ? "warning" : "success"}>{loading ? "Thinking" : "Ready"}</Badge>
         </div>
-        <div className="mt-3 flex gap-2 overflow-x-auto pb-1 text-xs">
+        <div className="mt-3 grid grid-cols-2 gap-2 text-[11px] text-slate-400 sm:flex sm:gap-2 sm:overflow-x-auto sm:pb-1 sm:text-xs">
+          <div className="rounded-xl border border-slate-800/80 bg-slate-950/30 px-3 py-1.5">Thread: <span className="text-slate-200">{ready ? "activo" : "nuevo"}</span></div>
+          <div className="rounded-xl border border-slate-800/80 bg-slate-950/30 px-3 py-1.5">Mensajes: <span className="text-slate-200">{messages.length}</span></div>
+        </div>
+        <div className="mt-2 flex gap-2 overflow-x-auto pb-1 text-xs">
           {quickLinks.map((item) => {
             const active = pathname === item.href || pathname.startsWith(`${item.href}/`);
             return (

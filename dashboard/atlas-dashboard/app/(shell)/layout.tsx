@@ -8,7 +8,7 @@ import { usePathname } from "next/navigation";
 import Sidebar from "@/app/components/shell/Sidebar";
 import MobileDock from "@/app/components/shell/MobileDock";
 import RightPanel from "@/app/components/right/RightPanel";
-import { getPageTitle, primaryNavItems } from "@/app/components/shell/navigation";
+import { getPageTitle, workspaceSections } from "@/app/components/shell/navigation";
 import { Button } from "@/app/components/ui/Button";
 import { cn } from "@/app/components/ui/cn";
 
@@ -17,7 +17,7 @@ export default function ShellLayout({ children }: { children: React.ReactNode })
   const pathname = usePathname();
   const title = useMemo(() => getPageTitle(pathname), [pathname]);
   const isChatRoute = pathname === "/chat" || pathname.startsWith("/chat/");
-  const routeChips = primaryNavItems.filter((item) => ["/chat", "/projects", "/ops", "/logs"].includes(item.href));
+  const routeChips = workspaceSections;
 
   return (
     <main className="relative min-h-screen overflow-hidden bg-[#0b1118] text-slate-100">
@@ -37,7 +37,7 @@ export default function ShellLayout({ children }: { children: React.ReactNode })
               <div className="flex items-center gap-2">
                 <div className="hidden items-center gap-1 rounded-full border border-indigo-500/30 bg-indigo-500/10 px-2.5 py-1 text-xs text-indigo-100 sm:inline-flex">
                   <Sparkles className="h-3.5 w-3.5 text-indigo-300" />
-                  Premium UI
+                  Premium · Chat-first
                 </div>
                 <Button size="sm" variant="secondary" className="lg:hidden" onClick={() => setMobileOpen(true)}>
                   <Menu className="h-4 w-4" />

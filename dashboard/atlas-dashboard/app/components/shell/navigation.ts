@@ -9,43 +9,51 @@ export type NavItem = {
   match: (pathname: string) => boolean;
 };
 
+function matchPath(base: string) {
+  return (pathname: string) => pathname === base || pathname.startsWith(`${base}/`);
+}
+
 export const primaryNavItems: NavItem[] = [
   {
     href: "/chat",
     label: "Chat",
     shortLabel: "Chat",
     icon: MessageSquare,
-    match: (pathname) => pathname === "/chat" || pathname.startsWith("/chat/"),
+    match: matchPath("/chat"),
   },
   {
     href: "/projects",
     label: "Projects",
     shortLabel: "Projects",
     icon: FolderKanban,
-    match: (pathname) => pathname === "/projects" || pathname.startsWith("/projects/"),
+    match: matchPath("/projects"),
   },
   {
     href: "/ops",
     label: "Ops",
     shortLabel: "Ops",
     icon: Wrench,
-    match: (pathname) => pathname === "/ops" || pathname.startsWith("/ops/"),
+    match: matchPath("/ops"),
   },
   {
     href: "/logs",
     label: "Logs",
     shortLabel: "Logs",
     icon: ScrollText,
-    match: (pathname) => pathname === "/logs" || pathname.startsWith("/logs/"),
+    match: matchPath("/logs"),
   },
   {
     href: "/agents",
     label: "Agents",
     shortLabel: "Agents",
     icon: BarChart3,
-    match: (pathname) => pathname === "/agents" || pathname.startsWith("/agents/"),
+    match: matchPath("/agents"),
   },
 ];
+
+export const workspaceSections = primaryNavItems.filter((item) =>
+  ["/chat", "/projects", "/ops", "/logs"].includes(item.href),
+);
 
 export function getPageTitle(pathname: string) {
   const active = primaryNavItems.find((item) => item.match(pathname));

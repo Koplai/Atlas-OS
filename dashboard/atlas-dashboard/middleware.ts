@@ -3,12 +3,32 @@ import { NextResponse } from "next/server";
 
 const PUBLIC_API_PATHS = new Set(["/api/health"]);
 
+const CANONICAL_REDIRECTS: Record<string, string> = {
+  "/project": "/projects",
+  "/project/": "/projects",
+  "/projects/": "/projects",
+  "/operation": "/ops",
+  "/operations": "/ops",
+  "/ops/": "/ops",
+  "/log": "/logs",
+  "/logs/": "/logs",
+  "/chat/": "/chat",
+  "/chat/new/": "/chat/new",
+};
+
 function unauthorized() {
   return NextResponse.json({ ok: false, error: "UNAUTHORIZED" }, { status: 401 });
 }
 
 export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
+
+  const canonicalPath = CANONICAL_REDIRECTS[pathname];
+  if (canonicalPath) {
+    const url = req.nextUrl.clone();
+    url.pathname = canonicalPath;
+    return NextResponse.redirect(url, 308);
+  }
 
   // Only guard API routes for now.
   if (!pathname.startsWith("/api/")) return NextResponse.next();
@@ -33,5 +53,5 @@ export function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/api/:path*"],
+  matcher: ["/((?!_next/static|_next/image|favicon.ico).*)"],
 };
