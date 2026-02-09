@@ -10,6 +10,7 @@ import { Badge } from "@/app/components/ui/Badge";
 import Composer from "@/app/components/chat/Composer";
 import { cn } from "@/app/components/ui/cn";
 import { workspaceSections } from "@/app/components/shell/navigation";
+import { ROUTES } from "@/app/components/shell/routes";
 
 type Msg = {
   id: string;
@@ -17,6 +18,8 @@ type Msg = {
   content: string;
   createdAt: string;
 };
+
+const starterPrompts = ["Resumen de logs críticos", "Plan de despliegue hoy", "Checklist P0/P1"];
 
 export default function ChatThread(props: { threadId: string | null }) {
   const [threadId, setThreadId] = useState<string | null>(props.threadId);
@@ -26,7 +29,7 @@ export default function ChatThread(props: { threadId: string | null }) {
   const pathname = usePathname();
 
   const ready = !!threadId;
-  const quickLinks = workspaceSections.filter((item) => item.href !== "/chat");
+  const quickLinks = workspaceSections.filter((item) => item.href !== ROUTES.CHAT);
 
   async function ensureThread() {
     if (threadId) return threadId;
@@ -39,7 +42,7 @@ export default function ChatThread(props: { threadId: string | null }) {
     const data = await res.json();
     if (data.thread?.id) {
       setThreadId(data.thread.id);
-      window.history.replaceState({}, "", `/chat/${data.thread.id}`);
+      window.history.replaceState({}, "", `${ROUTES.CHAT}/${data.thread.id}`);
       return data.thread.id as string;
     }
     throw new Error("Failed to create thread");
@@ -124,9 +127,9 @@ export default function ChatThread(props: { threadId: string | null }) {
               <div className="mt-3 text-sm font-medium text-slate-200">Empieza una conversación</div>
               <div className="mt-1 text-xs text-slate-500">Pregunta, planifica o ejecuta tareas desde aquí.</div>
               <div className="mt-3 flex flex-wrap justify-center gap-2 text-[11px]">
-                <span className="rounded-full border border-slate-800 bg-slate-900/40 px-2.5 py-1 text-slate-300">Ej: Resume estos logs</span>
-                <span className="rounded-full border border-slate-800 bg-slate-900/40 px-2.5 py-1 text-slate-300">Ej: Plan de despliegue hoy</span>
-                <span className="rounded-full border border-slate-800 bg-slate-900/40 px-2.5 py-1 text-slate-300">Ej: Checklist P0/P1</span>
+                {starterPrompts.map((prompt) => (
+                  <span key={prompt} className="rounded-full border border-slate-800 bg-slate-900/40 px-2.5 py-1 text-slate-300">Ej: {prompt}</span>
+                ))}
               </div>
             </div>
           )}
@@ -137,8 +140,8 @@ export default function ChatThread(props: { threadId: string | null }) {
                 <div
                   className={
                     m.role === "user"
-                      ? "max-w-[90%] sm:max-w-[78%] rounded-2xl border border-indigo-800/50 bg-indigo-600/15 px-3.5 py-2.5 text-sm text-indigo-100"
-                      : "max-w-[90%] sm:max-w-[78%] rounded-2xl border border-slate-800 bg-slate-900/40 px-3.5 py-2.5 text-sm text-slate-100"
+                      ? "max-w-[95%] sm:max-w-[80%] rounded-2xl border border-indigo-800/50 bg-indigo-600/15 px-3.5 py-2.5 text-sm text-indigo-100"
+                      : "max-w-[95%] sm:max-w-[80%] rounded-2xl border border-slate-800 bg-slate-900/40 px-3.5 py-2.5 text-sm text-slate-100"
                   }
                 >
                   <div className="whitespace-pre-wrap break-words leading-relaxed">{m.content}</div>

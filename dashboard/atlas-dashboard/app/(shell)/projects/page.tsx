@@ -1,10 +1,12 @@
 import Link from "next/link";
 import { FolderKanban, MessageSquare, Wrench, ScrollText } from "lucide-react";
 
+import { ROUTES } from "@/app/components/shell/routes";
+
 const quickActions = [
-  { href: "/chat/new", label: "Nuevo chat", icon: MessageSquare },
-  { href: "/ops", label: "Ops center", icon: Wrench },
-  { href: "/logs", label: "Ver logs", icon: ScrollText },
+  { href: ROUTES.CHAT_NEW, label: "Nuevo chat", icon: MessageSquare },
+  { href: ROUTES.OPS, label: "Ops center", icon: Wrench },
+  { href: ROUTES.LOGS, label: "Ver logs", icon: ScrollText },
 ];
 
 export default function ProjectsPage() {

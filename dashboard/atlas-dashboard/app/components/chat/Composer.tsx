@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { Mic, Paperclip, Send } from "lucide-react";
 
 import { Button } from "@/app/components/ui/Button";
@@ -59,16 +59,6 @@ export default function Composer(props: {
     rec.start();
   }
 
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Enter" && !e.shiftKey) {
-        // do not steal if focus isn't in a textarea/input we own
-      }
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, []);
-
   return (
     <CardFooter className="sticky bottom-0 border-t border-slate-900 bg-[#0b1118]/80 pt-3 backdrop-blur-xl">
       {files.length > 0 && (
@@ -91,51 +81,54 @@ export default function Composer(props: {
         </div>
       )}
 
-      <div className="flex w-full items-end gap-2">
-        <input ref={fileRef} type="file" className="hidden" multiple onChange={onPickFiles} />
+      <div className="w-full rounded-2xl border border-slate-800/80 bg-slate-950/40 p-2 shadow-[0_8px_26px_rgba(2,6,23,.35)]">
+        <div className="flex w-full items-end gap-2">
+          <input ref={fileRef} type="file" className="hidden" multiple onChange={onPickFiles} />
 
-        <Button
-          size="sm"
-          variant="secondary"
-          onClick={() => fileRef.current?.click()}
-          disabled={props.disabled}
-          title="Adjuntar archivos"
-        >
-          <Paperclip className="h-4 w-4" />
-        </Button>
+          <Button
+            size="sm"
+            variant="secondary"
+            onClick={() => fileRef.current?.click()}
+            disabled={props.disabled}
+            title="Adjuntar archivos"
+          >
+            <Paperclip className="h-4 w-4" />
+          </Button>
 
-        <Button
-          size="sm"
-          variant={listening ? "primary" : "secondary"}
-          onClick={startDictation}
-          disabled={props.disabled || !supportsSpeechRecognition()}
-          title={supportsSpeechRecognition() ? "Dictado por voz" : "Voz no soportada en este navegador"}
-        >
-          <Mic className="h-4 w-4" />
-          {listening ? "Escuchando" : "Voz"}
-        </Button>
+          <Button
+            size="sm"
+            variant={listening ? "primary" : "secondary"}
+            onClick={startDictation}
+            disabled={props.disabled || !supportsSpeechRecognition()}
+            title={supportsSpeechRecognition() ? "Dictado por voz" : "Voz no soportada en este navegador"}
+          >
+            <Mic className="h-4 w-4" />
+            {listening ? "Escuchando" : "Voz"}
+          </Button>
 
-        <textarea
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-          placeholder="Escribe a Atlas…"
-          className="min-h-[44px] max-h-36 w-full resize-none rounded-xl border border-slate-800 bg-slate-950/50 px-3 py-2 text-sm text-slate-100 placeholder:text-slate-500 transition-colors hover:border-slate-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400/80"
-          onKeyDown={(e) => {
-            if (e.key === "Enter" && !e.shiftKey) {
-              e.preventDefault();
-              send();
-            }
-          }}
-          disabled={props.disabled}
-        />
+          <textarea
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            placeholder="Escribe a Atlas…"
+            className="min-h-[44px] max-h-36 w-full resize-none rounded-xl border border-slate-800 bg-slate-950/50 px-3 py-2 text-sm text-slate-100 placeholder:text-slate-500 transition-colors hover:border-slate-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400/80"
+            onKeyDown={(e) => {
+              if (e.key === "Enter" && !e.shiftKey) {
+                e.preventDefault();
+                send();
+              }
+            }}
+            disabled={props.disabled}
+          />
 
-        <Button size="sm" variant="primary" onClick={send} disabled={props.disabled} title="Enviar">
-          <Send className="h-4 w-4" />
-        </Button>
+          <Button size="sm" variant="primary" onClick={send} disabled={props.disabled} title="Enviar">
+            <Send className="h-4 w-4" />
+          </Button>
+        </div>
       </div>
 
-      <div className="mt-2 text-[11px] text-slate-500">
-        Enter para enviar · Shift+Enter nueva línea
+      <div className="mt-2 flex items-center justify-between text-[11px] text-slate-500">
+        <span>Enter para enviar · Shift+Enter nueva línea</span>
+        <span>{files.length > 0 ? `${files.length} adjunto(s)` : "Sin adjuntos"}</span>
       </div>
     </CardFooter>
   );

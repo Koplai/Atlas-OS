@@ -1,6 +1,8 @@
 import type { LucideIcon } from "lucide-react";
 import { MessageSquare, FolderKanban, Wrench, ScrollText, BarChart3 } from "lucide-react";
 
+import { ROUTES } from "@/app/components/shell/routes";
+
 export type NavItem = {
   href: string;
   label: string;
@@ -15,45 +17,45 @@ function matchPath(base: string) {
 
 export const primaryNavItems: NavItem[] = [
   {
-    href: "/chat",
+    href: ROUTES.CHAT,
     label: "Chat",
     shortLabel: "Chat",
     icon: MessageSquare,
-    match: matchPath("/chat"),
+    match: matchPath(ROUTES.CHAT),
   },
   {
-    href: "/projects",
+    href: ROUTES.PROJECTS,
     label: "Projects",
     shortLabel: "Projects",
     icon: FolderKanban,
-    match: matchPath("/projects"),
+    match: matchPath(ROUTES.PROJECTS),
   },
   {
-    href: "/ops",
+    href: ROUTES.OPS,
     label: "Ops",
     shortLabel: "Ops",
     icon: Wrench,
-    match: matchPath("/ops"),
+    match: matchPath(ROUTES.OPS),
   },
   {
-    href: "/logs",
+    href: ROUTES.LOGS,
     label: "Logs",
     shortLabel: "Logs",
     icon: ScrollText,
-    match: matchPath("/logs"),
+    match: matchPath(ROUTES.LOGS),
   },
   {
-    href: "/agents",
+    href: ROUTES.AGENTS,
     label: "Agents",
     shortLabel: "Agents",
     icon: BarChart3,
-    match: matchPath("/agents"),
+    match: matchPath(ROUTES.AGENTS),
   },
 ];
 
-export const workspaceSections = primaryNavItems.filter((item) =>
-  ["/chat", "/projects", "/ops", "/logs"].includes(item.href),
-);
+const workspaceRouteSet = new Set<string>([ROUTES.CHAT, ROUTES.PROJECTS, ROUTES.OPS, ROUTES.LOGS]);
+
+export const workspaceSections = primaryNavItems.filter((item) => workspaceRouteSet.has(item.href));
 
 export function getPageTitle(pathname: string) {
   const active = primaryNavItems.find((item) => item.match(pathname));

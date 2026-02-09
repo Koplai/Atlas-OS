@@ -1,20 +1,9 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
-const PUBLIC_API_PATHS = new Set(["/api/health"]);
+import { CANONICAL_REDIRECTS } from "@/app/components/shell/routes";
 
-const CANONICAL_REDIRECTS: Record<string, string> = {
-  "/project": "/projects",
-  "/project/": "/projects",
-  "/projects/": "/projects",
-  "/operation": "/ops",
-  "/operations": "/ops",
-  "/ops/": "/ops",
-  "/log": "/logs",
-  "/logs/": "/logs",
-  "/chat/": "/chat",
-  "/chat/new/": "/chat/new",
-};
+const PUBLIC_API_PATHS = new Set(["/api/health"]);
 
 function unauthorized() {
   return NextResponse.json({ ok: false, error: "UNAUTHORIZED" }, { status: 401 });

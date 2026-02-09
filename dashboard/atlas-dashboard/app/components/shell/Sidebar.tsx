@@ -9,6 +9,7 @@ import { Button } from "@/app/components/ui/Button";
 import { Input } from "@/app/components/ui/Input";
 import { cn } from "@/app/components/ui/cn";
 import { primaryNavItems } from "@/app/components/shell/navigation";
+import { ROUTES } from "@/app/components/shell/routes";
 
 type Thread = { id: string; title: string; updatedAt: string };
 type Project = { id: string; name: string };
@@ -44,7 +45,7 @@ export default function Sidebar(props: { mobileOpen?: boolean; onCloseMobile?: (
     const data = await res.json();
     if (data.thread?.id) {
       await load();
-      window.location.href = `/chat/${data.thread.id}`;
+      window.location.href = `${ROUTES.CHAT}/${data.thread.id}`;
     }
   }
 
@@ -158,11 +159,11 @@ export default function Sidebar(props: { mobileOpen?: boolean; onCloseMobile?: (
         )}
 
         {filtered.map((t) => {
-          const active = pathname === `/chat/${t.id}`;
+          const active = pathname === `${ROUTES.CHAT}/${t.id}`;
           return (
             <Link
               key={t.id}
-              href={`/chat/${t.id}`}
+              href={`${ROUTES.CHAT}/${t.id}`}
               onClick={props.onCloseMobile}
               className={cn(
                 "block rounded-xl border px-3 py-2 text-sm transition-all",

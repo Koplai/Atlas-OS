@@ -9,6 +9,7 @@ import Sidebar from "@/app/components/shell/Sidebar";
 import MobileDock from "@/app/components/shell/MobileDock";
 import RightPanel from "@/app/components/right/RightPanel";
 import { getPageTitle, workspaceSections } from "@/app/components/shell/navigation";
+import { ROUTES } from "@/app/components/shell/routes";
 import { Button } from "@/app/components/ui/Button";
 import { cn } from "@/app/components/ui/cn";
 
@@ -16,7 +17,7 @@ export default function ShellLayout({ children }: { children: React.ReactNode })
   const [mobileOpen, setMobileOpen] = useState(false);
   const pathname = usePathname();
   const title = useMemo(() => getPageTitle(pathname), [pathname]);
-  const isChatRoute = pathname === "/chat" || pathname.startsWith("/chat/");
+  const isChatRoute = pathname === ROUTES.CHAT || pathname.startsWith(`${ROUTES.CHAT}/`);
   const routeChips = workspaceSections;
 
   return (
@@ -28,7 +29,7 @@ export default function ShellLayout({ children }: { children: React.ReactNode })
 
         <section className="flex min-w-0 flex-1 flex-col pb-20 lg:pb-0">
           <header className="sticky top-0 z-30 border-b border-slate-800/80 bg-[#0b1118]/85 px-3 py-2.5 backdrop-blur-xl sm:px-4 lg:px-6">
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between gap-2">
               <div className="min-w-0">
                 <div className="text-[11px] uppercase tracking-[0.16em] text-slate-500">Atlas Workspace</div>
                 <div className="truncate text-sm font-semibold text-slate-100">{title}</div>
@@ -45,7 +46,7 @@ export default function ShellLayout({ children }: { children: React.ReactNode })
               </div>
             </div>
 
-            <div className="mt-2 hidden gap-1.5 overflow-x-auto pb-0.5 lg:flex">
+            <div className="mt-2 flex gap-1.5 overflow-x-auto pb-0.5">
               {routeChips.map((item) => {
                 const active = item.match(pathname);
                 return (
