@@ -31,6 +31,8 @@ Tener integrado en Atlas OS un bloque funcional inicial de MCP + operación desd
 - Mobile quick actions
 - Cost tracker en Atlas OS (tokens/coste por sesión, por agente y agregado diario/semanal)
 - Panel de gobernanza visible en Atlas OS: agentes/subagentes activos, modelo por agente (local/cloud), coste actual, estado ATLAS-SEC/ATLAS-GRC, configuración efectiva (USER.md/SOUL.md/policies activas) con auditoría de cambios
+- DR Control Center en Atlas OS: estado primary/standby, botón de failover manual auditado (dry-run + execute), health checks y evidencia de pruebas
+- Architecture Docs Hub en Atlas OS: documentación de arquitectura del sistema, runbooks, ADRs, mapas de dependencias y estado de versión
 
 ## P1.5 Estabilidad de operación continua
 - Protocolo "Safe Model Switch" para evitar bloqueos al alternar local/cloud (prechecks, cambio controlado, rollback automático).

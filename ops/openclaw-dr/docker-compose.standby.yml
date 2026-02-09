@@ -1,0 +1,75 @@
+name: openclaw-dr-standby
+
+networks:
+  openclaw-dr-net:
+    driver: bridge
+
+volumes:
+  openclaw-dr-db-data:
+  openclaw-dr-qdrant-data:
+  openclaw-dr-n8n-data:
+
+services:
+  openclaw-dr-gateway:
+    image: python:3.12-slim
+    container_name: openclaw-dr-gateway
+    restart: "no"
+    working_dir: /app
+    command: >
+      bash -lc "/app/restore-lkg.sh && python3 /app/standby-server.py"
+    ports:
+      - "127.0.0.1:28789:18789"
+    volumes:
+      - /mnt/d/AtlasVault:/vault
+      - /mnt/d/AtlasVault/standby:/app:ro
+      - /mnt/d/AtlasVault/standby/workspace:/standby-workspace
+    networks:
+      - openclaw-dr-net
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    read_only: true
+    tmpfs:
+      - /tmp
+
+  openclaw-dr-db:
+    image: postgres:16-alpine
+    container_name: openclaw-dr-db
+    restart: "no"
+    env_file:
+      - /mnt/d/AtlasVault/secrets/standby-db.env
+    volumes:
+      - openclaw-dr-db-data:/var/lib/postgresql/data
+      - /mnt/d/AtlasVault:/vault
+    networks:
+      - openclaw-dr-net
+    security_opt:
+      - no-new-privileges:true
+
+  openclaw-dr-qdrant:
+    image: qdrant/qdrant:latest
+    container_name: openclaw-dr-qdrant
+    restart: "no"
+    volumes:
+      - openclaw-dr-qdrant-data:/qdrant/storage
+      - /mnt/d/AtlasVault:/vault
+    networks:
+      - openclaw-dr-net
+    security_opt:
+      - no-new-privileges:true
+
+  openclaw-dr-n8n:
+    image: n8nio/n8n:latest
+    container_name: openclaw-dr-n8n
+    restart: "no"
+    profiles: ["critical-workflows"]
+    env_file:
+      - /mnt/d/AtlasVault/secrets/standby-n8n.env
+    volumes:
+      - openclaw-dr-n8n-data:/home/node/.n8n
+      - /mnt/d/AtlasVault:/vault
+    networks:
+      - openclaw-dr-net
+    security_opt:
+      - no-new-privileges:true
