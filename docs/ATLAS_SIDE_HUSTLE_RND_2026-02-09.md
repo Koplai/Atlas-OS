@@ -199,3 +199,41 @@ Contexto: ejecución de loop programado, condicionado a ausencia de urgencias P0
 ### 8.6 Nota operativa de tooling
 - `web_search` no disponible en este entorno por falta de `BRAVE_API_KEY`.
 - Mitigación aplicada: validación con `web_fetch` sobre fuentes oficiales directas.
+
+---
+
+## 9) Ciclo 07:30 CET — plan accionable inmediato (sin P0/P1 crítico activo)
+
+### 9.1 Tesis comercial de esta franja
+Para maximizar probabilidad de ingreso en <14 días en España/UE, conviene vender primero **resultado operativo** (automatización medible), no “IA genérica”.
+
+### 9.2 Oferta empaquetada recomendada (lista para salir hoy)
+**Nombre:** "Sprint Automatización Pyme — 10 días"
+
+**Incluye (alcance cerrado):**
+1. Captura lead→CRM + aviso interno
+2. Recordatorio de cobro/factura
+3. Resumen semanal automático (ventas/incidencias)
+
+**Precio test A/B:**
+- A: 490€ (sin soporte)
+- B: 790€ (+30 días soporte)
+
+**Condiciones anti-riesgo:**
+- Máx. 2 sistemas integrados por cliente en piloto.
+- Cambios fuera de alcance por bolsa horaria.
+- Fallback manual documentado si falla API de terceros.
+
+### 9.3 Riesgos de ejecución (semana 1) y control
+- **Riesgo de ciclo de venta largo:** ofrecer auditoría express 30 min como puerta de entrada.
+- **Riesgo de ruido legal/compliance:** mensaje fijo “starter operativo, no asesoría jurídica”.
+- **Riesgo de margen negativo por personalización:** catálogo de 6 automatizaciones predefinidas, elegir 3.
+
+### 9.4 Experimentos ultralow-cost (72 horas)
+1. **Landing única** con CTA a diagnóstico (objetivo: 100 visitas, 8 leads).
+2. **Outreach directo** a 20 negocios locales (asesorías, clínicas, despachos): objetivo 4 llamadas.
+3. **Oferta fundador** a 2 clientes (descuento por testimonio + métricas publicables): objetivo 1 cierre.
+
+### 9.5 Señales de “go / no-go”
+- **GO** si en 7 días hay ≥3 llamadas cualificadas y ≥1 propuesta en negociación.
+- **NO-GO/PIVOT** si <2 llamadas cualificadas: ajustar nicho o cambiar promesa principal.
