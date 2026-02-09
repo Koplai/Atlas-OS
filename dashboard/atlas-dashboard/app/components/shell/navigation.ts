@@ -1,7 +1,7 @@
 import type { LucideIcon } from "lucide-react";
 import { MessageSquare, FolderKanban, Wrench, ScrollText, BarChart3 } from "lucide-react";
 
-import { ROUTES } from "@/app/components/shell/routes";
+import { normalizeRoutePath, ROUTES } from "@/app/components/shell/routes";
 
 export type NavItem = {
   href: string;
@@ -11,8 +11,16 @@ export type NavItem = {
   match: (pathname: string) => boolean;
 };
 
+function normalizeForMatch(pathname: string) {
+  return normalizeRoutePath(pathname).toLowerCase();
+}
+
 function matchPath(base: string) {
-  return (pathname: string) => pathname === base || pathname.startsWith(`${base}/`);
+  const canonicalBase = normalizeForMatch(base);
+  return (pathname: string) => {
+    const current = normalizeForMatch(pathname);
+    return current === canonicalBase || current.startsWith(`${canonicalBase}/`);
+  };
 }
 
 export const primaryNavItems: NavItem[] = [
@@ -58,6 +66,7 @@ const workspaceRouteSet = new Set<string>([ROUTES.CHAT, ROUTES.PROJECTS, ROUTES.
 export const workspaceSections = primaryNavItems.filter((item) => workspaceRouteSet.has(item.href));
 
 export function getPageTitle(pathname: string) {
-  const active = primaryNavItems.find((item) => item.match(pathname));
+  const normalized = normalizeForMatch(pathname);
+  const active = primaryNavItems.find((item) => item.match(normalized));
   return active?.label ?? "Atlas";
 }

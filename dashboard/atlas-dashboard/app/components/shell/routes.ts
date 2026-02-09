@@ -9,6 +9,9 @@ export const ROUTES = {
 } as const;
 
 export const CANONICAL_REDIRECTS: Record<string, string> = {
+  "/workspace": ROUTES.CHAT,
+  "/dashboard": ROUTES.CHAT,
+  "/atlas": ROUTES.CHAT,
   "/project": ROUTES.PROJECTS,
   "/projects/": ROUTES.PROJECTS,
   "/operation": ROUTES.OPS,
@@ -21,9 +24,13 @@ export const CANONICAL_REDIRECTS: Record<string, string> = {
   "/chat/new/": ROUTES.CHAT_NEW,
   "/chat/new-chat": ROUTES.CHAT_NEW,
   "/workspace/chat": ROUTES.CHAT,
+  "/workspace/chats": ROUTES.CHAT,
   "/workspace/projects": ROUTES.PROJECTS,
+  "/workspace/project": ROUTES.PROJECTS,
   "/workspace/ops": ROUTES.OPS,
+  "/workspace/operations": ROUTES.OPS,
   "/workspace/logs": ROUTES.LOGS,
+  "/workspace/log": ROUTES.LOGS,
 };
 
 const SECTION_PREFIX_ALIASES: Array<{ aliases: string[]; canonical: string }> = [

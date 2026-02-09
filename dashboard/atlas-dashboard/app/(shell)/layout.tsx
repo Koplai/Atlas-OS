@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
-import { Menu, Sparkles } from "lucide-react";
+import { ArrowRight, Menu, Sparkles } from "lucide-react";
 import { usePathname } from "next/navigation";
 
 import Sidebar from "@/app/components/shell/Sidebar";
@@ -44,6 +44,15 @@ export default function ShellLayout({ children }: { children: React.ReactNode })
                   <Sparkles className="h-3.5 w-3.5 text-indigo-300" />
                   Premium · Chat-first
                 </div>
+                {!isChatRoute && (
+                  <Link
+                    href={ROUTES.CHAT_NEW}
+                    className="hidden items-center gap-1.5 rounded-full border border-indigo-500/40 bg-indigo-500/10 px-2.5 py-1 text-xs text-indigo-100 transition-colors hover:border-indigo-400 sm:inline-flex"
+                  >
+                    Ir a chat
+                    <ArrowRight className="h-3.5 w-3.5" />
+                  </Link>
+                )}
                 <Button size="sm" variant="secondary" className="lg:hidden" onClick={() => setMobileOpen(true)}>
                   <Menu className="h-4 w-4" />
                 </Button>
