@@ -98,7 +98,7 @@ export default function ChatThread(props: { threadId: string | null }) {
   const title = useMemo(() => (ready ? "Chat" : "New chat"), [ready]);
 
   return (
-    <div className="flex min-h-0 flex-1 flex-col p-3 sm:p-4 lg:p-6">
+    <div className="flex min-h-0 flex-1 flex-col p-3 pb-24 sm:p-4 sm:pb-28 lg:p-6 lg:pb-6">
       <div className="rounded-2xl border border-slate-800/80 bg-gradient-to-br from-slate-900/70 via-slate-900/40 to-slate-950/40 p-3 shadow-[0_10px_30px_rgba(2,6,23,.35)] sm:p-4">
         <div className="flex items-center justify-between gap-2">
           <div>

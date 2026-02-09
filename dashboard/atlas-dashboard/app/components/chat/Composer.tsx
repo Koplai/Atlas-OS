@@ -67,7 +67,7 @@ export default function Composer(props: {
   }
 
   return (
-    <CardFooter className="sticky bottom-0 border-t border-slate-900 bg-[#0b1118]/80 pt-3 backdrop-blur-xl">
+    <CardFooter className="sticky bottom-[4.5rem] border-t border-slate-900 bg-[#0b1118]/80 pt-3 backdrop-blur-xl lg:bottom-0">
       {files.length > 0 && (
         <div className="mb-3 flex flex-wrap gap-2">
           {files.map((f, idx) => (
