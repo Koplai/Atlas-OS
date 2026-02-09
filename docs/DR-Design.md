@@ -23,7 +23,7 @@ flowchart LR
 - Fase 0 ✅ inventario base
 - Fase 1 ✅ AtlasVault scaffold + logs + RBAC scaffold
 - Fase 2 ✅ Snapshot + validación + promoción LKG
-- Fase 3 ⏳ Standby Docker
+- Fase 3 ✅ Standby Docker
 - Fase 4 ⏳ Witness PowerShell
 - Fase 5 ⏳ Failback controlado
 
@@ -57,6 +57,28 @@ flowchart LR
   - Mitigación: reforzar ACL Windows en Fase 4
 - Riesgo: snapshot sin DB volumes en fase inicial
   - Mitigación: añadir backup de volúmenes en fase posterior
+
+## Fase 3 — Standby Docker (evidencia)
+Artefactos en `/mnt/d/AtlasVault/standby`:
+- `docker-compose.yml`
+- `restore-lkg.sh`
+- `standby-server.py`
+- `runbook-standby.md`
+
+Comportamiento:
+- Puerto standby: `28789`
+- Arranque manual (OFF por defecto)
+- Restauración obligatoria desde `last-known-good.json`
+- Health endpoint: `GET /health` => JSON `status=ok`
+
+Validación ejecutada:
+- `docker compose up -d`
+- `curl http://127.0.0.1:28789/health` => 200 OK
+- `curl http://127.0.0.1:28789/manifest` => manifest LKG
+- `docker compose down`
+
+Auditoría:
+- `PHASE3 | standby restore LKG ...` en `/mnt/d/AtlasVault/logs/audit.log`
 
 ## Runbook (preview)
 - Failover: witness detecta 3 fallos → levanta standby → restaura LKG → valida `/health`
