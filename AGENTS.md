@@ -117,6 +117,10 @@ Reactions are lightweight social signals. Humans use them constantly — they sa
 
 Skills provide your tools. When you need one, check its `SKILL.md`. Keep local notes (camera names, SSH details, voice preferences) in `TOOLS.md`.
 
+## Git Sync Rule
+
+Después de cada bloque de trabajo cerrado (feature/fix/doc DR/seguridad), hacer commit y push a `origin/master` automáticamente para mantener continuidad en otra máquina.
+
 **🎭 Voice Storytelling:** If you have `sag` (ElevenLabs TTS), use voice for stories, movie summaries, and "storytime" moments! Way more engaging than walls of text. Surprise people with funny voices.
 
 **📝 Platform Formatting:**
