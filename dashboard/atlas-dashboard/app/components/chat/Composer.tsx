@@ -27,7 +27,14 @@ export default function Composer(props: {
     const f = files;
     setText("");
     setFiles([]);
-    await props.onSend(t, f);
+
+    try {
+      await props.onSend(t, f);
+    } catch {
+      // Restore draft on send failure to avoid message loss.
+      setText(t);
+      setFiles(f);
+    }
   }
 
   function onPickFiles(e: React.ChangeEvent<HTMLInputElement>) {
@@ -120,7 +127,7 @@ export default function Composer(props: {
             disabled={props.disabled}
           />
 
-          <Button size="sm" variant="primary" onClick={send} disabled={props.disabled} title="Enviar">
+          <Button size="sm" variant="primary" onClick={send} disabled={props.disabled || (!text.trim() && files.length === 0)} title="Enviar">
             <Send className="h-4 w-4" />
           </Button>
         </div>

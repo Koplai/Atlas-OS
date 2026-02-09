@@ -71,6 +71,15 @@ export default function Sidebar(props: { mobileOpen?: boolean; onCloseMobile?: (
   useEffect(() => {
     void load();
     // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedProjectId, pathname]);
+
+  useEffect(() => {
+    const onThreadsChanged = () => {
+      void load();
+    };
+    window.addEventListener("atlas:threads-changed", onThreadsChanged);
+    return () => window.removeEventListener("atlas:threads-changed", onThreadsChanged);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedProjectId]);
 
   const filtered = useMemo(

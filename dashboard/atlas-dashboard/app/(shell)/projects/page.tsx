@@ -2,6 +2,7 @@ import Link from "next/link";
 import { FolderKanban, MessageSquare, Wrench, ScrollText } from "lucide-react";
 
 import { ROUTES } from "@/app/components/shell/routes";
+import ProjectInstructionsCard from "@/app/components/projects/ProjectInstructionsCard";
 
 const quickActions = [
   { href: ROUTES.CHAT_NEW, label: "Nuevo chat", icon: MessageSquare },
@@ -39,6 +40,8 @@ export default function ProjectsPage() {
           ))}
         </div>
       </div>
+
+      <ProjectInstructionsCard />
     </div>
   );
 }

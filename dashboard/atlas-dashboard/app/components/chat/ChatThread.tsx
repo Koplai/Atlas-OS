@@ -34,18 +34,31 @@ export default function ChatThread(props: { threadId: string | null }) {
   async function ensureThread() {
     if (threadId) return threadId;
     const selectedProjectId = typeof window !== "undefined" ? localStorage.getItem("atlas.selectedProjectId") : null;
-    const res = await fetch("/api/threads", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ title: "Nuevo chat", projectId: selectedProjectId || undefined }),
-    });
-    const data = await res.json();
-    if (data.thread?.id) {
-      setThreadId(data.thread.id);
-      window.history.replaceState({}, "", `${ROUTES.CHAT}/${data.thread.id}`);
-      return data.thread.id as string;
+
+    const create = async (projectId?: string) => {
+      const res = await fetch("/api/threads", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ title: "Nuevo chat", projectId: projectId || undefined }),
+      });
+      const data = await res.json();
+      return { res, data } as const;
+    };
+
+    // Try with selected project first; fallback without project if stale/invalid relation.
+    let created = await create(selectedProjectId || undefined);
+    if (!created.res.ok || !created.data.thread?.id) {
+      created = await create(undefined);
     }
-    throw new Error("Failed to create thread");
+
+    if (created.data.thread?.id) {
+      setThreadId(created.data.thread.id);
+      window.history.replaceState({}, "", `${ROUTES.CHAT}/${created.data.thread.id}`);
+      window.dispatchEvent(new CustomEvent("atlas:threads-changed"));
+      return created.data.thread.id as string;
+    }
+
+    throw new Error(created.data?.error ?? "Failed to create thread");
   }
 
   async function load() {
@@ -59,12 +72,18 @@ export default function ChatThread(props: { threadId: string | null }) {
     const id = await ensureThread();
     setLoading(true);
     try {
-      await fetch("/api/chat", {
+      const res = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ threadId: id, content, attachments: attachments.map((f) => ({ name: f.name, size: f.size })) }),
       });
+      if (!res.ok) {
+        const data = (await res.json().catch(() => ({}))) as { error?: string };
+        throw new Error(data.error || `CHAT_SEND_FAILED_${res.status}`);
+      }
+
       await load();
+      window.dispatchEvent(new CustomEvent("atlas:threads-changed"));
       bottomRef.current?.scrollIntoView({ behavior: "smooth" });
     } finally {
       setLoading(false);

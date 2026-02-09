@@ -50,9 +50,23 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: false, error: "CONTENT_TOO_LONG" }, { status: 413 });
   }
 
+  const thread = await prisma.chatThread.findUnique({
+    where: { id: threadId },
+    include: { messages: { take: 1, orderBy: { createdAt: "asc" } } },
+  });
+  if (!thread) {
+    return NextResponse.json({ ok: false, error: "THREAD_NOT_FOUND" }, { status: 404 });
+  }
+
+  const suggestedTitle = content.trim().replace(/\s+/g, " ").slice(0, 72) || "Nuevo chat";
+  const shouldRetitle = !thread.title || thread.title.toLowerCase() === "nuevo chat";
+
   await prisma.chatThread.update({
     where: { id: threadId },
-    data: { updatedAt: new Date() },
+    data: {
+      updatedAt: new Date(),
+      ...(shouldRetitle && thread.messages.length === 0 ? { title: suggestedTitle } : {}),
+    },
   });
 
   const userMsg = await prisma.chatMessage.create({
