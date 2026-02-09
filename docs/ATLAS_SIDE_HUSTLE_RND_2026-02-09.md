@@ -1,0 +1,150 @@
+# Atlas OS — Side Hustle R&D (España/UE)
+
+Fecha: 2026-02-09 (madrugada)
+Contexto: ejecución de loop programado, condicionado a ausencia de urgencias P0/P1 activas.
+
+## 1) Chequeo rápido de prioridad operativa
+- Revisado backlog activo (`docs/ATLAS_OS_BACKLOG.md`) y bloque P0 (`docs/ATLAS_P0_OPS_BLOCK_2026-02-08.md`).
+- Hay pendientes P0/P1 de mejora, pero **no se detecta incidente crítico activo inmediato** (caída, fuga de datos, bloqueo total de operación).
+- Se procede con investigación R&D de side hustle.
+
+## 2) Señales de mercado (fuentes fiables)
+
+### Señal A — La pyme sigue siendo el mercado dominante (España)
+- Referencia de estructura empresarial y foco pyme/micro: INE/DIRCE (sitio oficial; el PDF exacto cambió de ruta durante la consulta).
+- Implicación: servicios de ticket medio bajo/medio y despliegue rápido tienen TAM alto.
+
+### Señal B — Existe presupuesto público para digitalización pyme
+- Kit Digital (Red.es / Acelera Pyme): ayudas para pymes, microempresas y autónomos + marketplace de agentes digitalizadores.
+- URL: https://www.acelerapyme.gob.es/kit-digital
+- Implicación: se puede vender con enfoque “cofinanciable” o “complementario a subvención”.
+
+### Señal C — Demanda permanente en ciberhigiene pyme
+- INCIBE Empresas publica continuamente incidentes/guías (BEC, respuesta a ciberataques, cultura de seguridad).
+- URL: https://www.incibe.es/empresas
+- Implicación: paquetes de seguridad operativa recurrentes para pymes no técnicas.
+
+### Señal D — Marco regulatorio AI y compliance en UE
+- Reglamento (UE) 2024/1689 (AI Act), marco armonizado para despliegue de IA en la Unión.
+- URL: https://eur-lex.europa.eu/eli/reg/2024/1689/oj
+- Implicación: oportunidad de “IA útil + gobernanza ligera” para pymes (políticas, inventario de usos, cláusulas proveedor).
+
+### Señal E — Entorno normativo español favorable a crecimiento y digitalización
+- Ley 18/2022 (Crea y Crece) como señal de política pública pro-crecimiento empresarial.
+- URL: https://www.boe.es/buscar/act.php?id=BOE-A-2022-15818
+
+## 3) Oportunidades realistas (priorizadas)
+
+## Oportunidad 1 — "Automatización Operativa Pyme" (servicio B2B productizado)
+**Qué es**
+- Implementación de 3-5 automatizaciones de alto impacto por vertical (asesorías, clínicas, ecommerce pequeño, despachos):
+  - Captura de leads → CRM
+  - Recordatorios de cobro/factura
+  - Clasificación de emails/tickets
+  - Resumen semanal de KPIs
+
+**Modelo de ingresos**
+- Setup: 600€–2.000€
+- Mantenimiento: 90€–350€/mes
+
+**Por qué ahora**
+- Presión de costes + baja madurez digital en micro-pymes.
+
+**Riesgos**
+- Dependencia de integraciones frágiles.
+- Scope creep.
+
+**Mitigación**
+- Paquetes cerrados por vertical + SLA limitado.
+- Checklist de “fuente de verdad” de datos antes del despliegue.
+
+## Oportunidad 2 — "AI Compliance Starter" (micro-consultoría + plantillas)
+**Qué es**
+- Pack rápido para pymes que ya usan ChatGPT/Copilot/otros:
+  - Inventario de usos de IA
+  - Política interna básica de uso
+  - Riesgo por proceso (bajo/medio/alto)
+  - Recomendaciones de contratación de proveedores IA
+
+**Modelo de ingresos**
+- 350€–1.200€ por paquete
+- Upsell mensual de seguimiento (60€–150€)
+
+**Por qué ahora**
+- AI Act aumenta la necesidad de orden documental incluso en empresas pequeñas.
+
+**Riesgos**
+- Sobreprometer “cumplimiento legal total”.
+
+**Mitigación**
+- Posicionamiento explícito: “starter operativo, no asesoría jurídica vinculante”.
+
+## Oportunidad 3 — "Ciberhigiene pyme en 30 días" (servicio recurrente)
+**Qué es**
+- Servicio práctico (no auditoría enterprise):
+  - MFA, backups, contraseñas, hardening correo anti-BEC
+  - Simulación básica de phishing interno
+  - Runbook de incidentes de 1 página
+
+**Modelo de ingresos**
+- Setup 300€–900€
+- Suscripción 49€–199€/mes
+
+**Por qué ahora**
+- Persistencia de fraudes BEC y poca capacidad interna en pymes.
+
+**Riesgos**
+- Responsabilidad percibida en caso de incidente real.
+
+**Mitigación**
+- Contrato claro de alcance + límites + seguro RC si escala.
+
+## Oportunidad 4 — Producto digital "packs de SOP + automatizaciones" por nicho
+**Qué es**
+- Plantillas Notion/Docs + zaps/n8n prearmados para procesos concretos.
+
+**Modelo de ingresos**
+- 29€–149€ one-off + soporte opcional.
+
+**Riesgos**
+- Baja diferenciación y piratería.
+
+**Mitigación**
+- Foco en nichos verticales con comunidad y casos reales.
+
+## 4) Experimentos de bajo coste (2 semanas)
+
+## Experimento E1 — Test de demanda (sin código)
+- Crear landing 1-página para Oportunidad 1 + formulario de diagnóstico.
+- KPI: ≥10 respuestas cualificadas / 14 días o ≥3 llamadas agendadas.
+- Coste estimado: 0€–30€ (dominio/herramienta básica).
+
+## Experimento E2 — Oferta piloto "Founding clients"
+- Propuesta a 15 contactos (red propia + LinkedIn):
+  - 2 plazas piloto a precio reducido a cambio de testimonio y métricas.
+- KPI: cerrar 1–2 pilotos en 14 días.
+
+## Experimento E3 — Lead magnet compliance IA
+- Publicar checklist PDF "IA responsable para pyme en 45 min".
+- KPI: 30 descargas orgánicas + 5 conversaciones comerciales.
+
+## Experimento E4 — Micro-servicio ciberhigiene
+- Vender "sesión 90 min + plan 30 días".
+- KPI: 3 ventas iniciales o señal de pricing inválido.
+
+## 5) Recomendación táctica inmediata
+1. Empezar por **Oportunidad 1** (automatización productizada) por velocidad de monetización.
+2. Ejecutar E1 + E2 en paralelo esta semana.
+3. Usar Oportunidad 2 (AI compliance starter) como upsell en clientes que ya usan herramientas de IA.
+4. Mantener Oportunidad 3 como vía de MRR estable.
+
+## 6) Guardrails éticos (obligatorio)
+- No prometer resultados garantizados ni claims legales absolutos.
+- No recolectar datos sensibles sin base y sin medidas mínimas.
+- Transparencia sobre uso de IA y revisión humana.
+- Diseñar automatizaciones que reduzcan error humano sin manipulación de usuarios finales.
+
+## 7) Próximo ciclo de investigación sugerido
+- Validar 2 verticales concretos (ej. asesorías y clínicas).
+- Entrevistar 8-12 pymes sobre dolores repetitivos y presupuesto mensual real.
+- Construir pricing con 3 tiers y criterios de descarte de clientes no-fit.
