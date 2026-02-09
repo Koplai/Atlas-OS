@@ -16,3 +16,4 @@
 - [ ] Governance: retentions policies operativas (datos, logs, evidencias, borrado seguro).
 - [ ] RBAC para agentes: roles/permisos mínimos + matriz de autorizaciones + auditoría de decisiones.
 - [ ] Proyecto: Arquitectura distribuida multi-nodo (WSL + Synology1 + Synology2) para agentes/OpenClaw workers, con plan por fases, capacity planning y DR.
+- [ ] Roadmap voz: evaluación de `chatterbox-tts` (Resemble AI), instalación controlada, benchmark vs calidad/latencia y panel de configuración en Atlas OS.
