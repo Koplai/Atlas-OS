@@ -31,6 +31,10 @@ Tener integrado en Atlas OS un bloque funcional inicial de MCP + operación desd
 - Mobile quick actions
 - Cost tracker en Atlas OS (tokens/coste por sesión, por agente y agregado diario/semanal)
 
+## P1.5 Estabilidad de operación continua
+- Protocolo "Safe Model Switch" para evitar bloqueos al alternar local/cloud (prechecks, cambio controlado, rollback automático).
+- Mecanismo de continuidad de contexto: checkpoint + resumen automático + traspaso limpio de sesión cuando contexto >75%.
+
 ## P2 / Ideas de crecimiento (no prioritario ahora)
 - Módulo de generación de contenido visual para marketing (imágenes y vídeo) orientado a monetización.
   - **Propósito:** crear activos para crecer audiencia y generar ingresos (ej. TikTok/shorts de influencers IA, creatividades de campañas, assets de marca).
