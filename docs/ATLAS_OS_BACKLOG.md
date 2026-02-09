@@ -31,6 +31,12 @@ Tener integrado en Atlas OS un bloque funcional inicial de MCP + operación desd
 - Mobile quick actions
 - Cost tracker en Atlas OS (tokens/coste por sesión, por agente y agregado diario/semanal)
 
+## P2 / Ideas de crecimiento (no prioritario ahora)
+- Módulo de generación de contenido visual para marketing (imágenes y vídeo) orientado a monetización.
+  - **Propósito:** crear activos para crecer audiencia y generar ingresos (ej. TikTok/shorts de influencers IA, creatividades de campañas, assets de marca).
+  - **Razón de negocio:** evitar perder ideas habladas en chat y convertirlas en backlog accionable con trazabilidad.
+  - **Líneas futuras:** pipeline ComfyUI + plantillas + automatización de publicación + medición de rendimiento por pieza.
+
 ## Criterios de aceptación (DoD)
 - Build verde
 - Rutas funcionales
