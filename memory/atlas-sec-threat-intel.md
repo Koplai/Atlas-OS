@@ -29,3 +29,19 @@ Status: **material updates observed**
 3. **Injection-resistant execution pipeline**: preserve strict untrusted-content handling for web/email inputs, require policy checks before tool execution, and add alerts for suspicious sequences (fetch→exec, fetch→message, mass file read/write) tied to cron/session audits.
 
 Sources checked: The Hacker News AI security feed/search pages (items dated 2025-08-27, 2026-01-29) and OWASP GenAI Top-10 project repository index.
+
+## 2026-02-10 11:01 CET — ATLAS-SEC Threat Intel (lightweight)
+
+Findings (AGI/agent security):
+- **OWASP GenAI 2025 risk refresh remains active:** current OWASP LLM risk pages continue to prioritize prompt injection and sensitive data disclosure as primary exploit paths in agentic workflows (including indirect injections from external content).
+- **MCP ecosystem maturity increased in 2025:** Model Context Protocol revisions (2025-03-26, 2025-06-18, 2025-11-25-RC) and security guidance emphasize confused-deputy/OAuth consent abuse risks in tool/proxy chains—relevant to agent tool abuse and delegated authorization.
+- **ATT&CK-relevant mapping unchanged:** observed threat patterns still align with ATT&CK-style behaviors (initial access via crafted content, privilege misuse via over-permissioned tools, and exfiltration over allowed channels) rather than a newly emerging threat class.
+
+Status: **no critical updates**
+
+3 concrete mitigations for this OpenClaw environment:
+1. **Strict untrusted-content boundary**: keep all `web_fetch`/external text as untrusted; require explicit policy checks before any downstream tool call (especially `exec`, `message`, `gateway`, and write operations).
+2. **Delegated-auth hardening for tool connectors**: enforce per-client consent, exact redirect-URI matching, CSRF/state validation, and short-lived scoped tokens on any MCP/OAuth-style integrations to prevent confused-deputy abuse.
+3. **Least-privilege + exfil controls**: maintain deny-by-default on high-impact tools, restrict outbound destinations, and alert on suspicious chains (fetch→exec, fetch→message, bulk read→send) in cron/session audits.
+
+Sources checked: OWASP GenAI LLM risk pages (LLM01:2025, LLM02:2025), MCP security best practices + 2025 spec releases, OWASP Agentic AI threats overview.
