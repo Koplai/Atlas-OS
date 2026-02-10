@@ -17,3 +17,4 @@
 - [ ] RBAC para agentes: roles/permisos mínimos + matriz de autorizaciones + auditoría de decisiones.
 - [ ] Proyecto: Arquitectura distribuida multi-nodo (WSL + Synology1 + Synology2) para agentes/OpenClaw workers, con plan por fases, capacity planning y DR.
 - [ ] Roadmap voz: evaluación de `chatterbox-tts` (Resemble AI), instalación controlada, benchmark vs calidad/latencia y panel de configuración en Atlas OS.
+- [ ] Observabilidad visual: evaluar integración Grafana/Prometheus para security posture, workers y SLA de reporting en Atlas OS.
