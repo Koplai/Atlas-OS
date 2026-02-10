@@ -1,0 +1,68 @@
+# COMPLIANCE P0 ARTIFACT
+timestamp=2026-02-10T12:33:21+01:00
+task=P0 gateway/platform status snapshot
+cmd=openclaw status
+---
+OpenClaw status
+
+Overview
+┌─────────────────┬───────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ Item            │ Value                                                                                             │
+├─────────────────┼───────────────────────────────────────────────────────────────────────────────────────────────────┤
+│ Dashboard       │ http://127.0.0.1:18789/                                                                           │
+│ OS              │ linux 6.6.87.2-microsoft-standard-WSL2 (x64) · node 22.22.0                                       │
+│ Tailscale       │ off                                                                                               │
+│ Channel         │ stable (default)                                                                                  │
+│ Update          │ available · pnpm · npm update 2026.2.9                                                            │
+│ Gateway         │ local · ws://127.0.0.1:18789 (local loopback) · reachable 25ms · auth token · Jpmk-hub (172.23.   │
+│                 │ 13.196) app unknown linux 6.6.87.2-microsoft-standard-WSL2                                        │
+│ Gateway service │ systemd installed · enabled · running (pid 99303, state active)                                   │
+│ Node service    │ systemd not installed                                                                             │
+│ Agents          │ 1 · 1 bootstrapping · sessions 23 · default main active just now                                  │
+│ Memory          │ enabled (plugin memory-core) · unavailable                                                        │
+│ Probes          │ skipped (use --deep)                                                                              │
+│ Events          │ none                                                                                              │
+│ Heartbeat       │ 30m (main)                                                                                        │
+│ Sessions        │ 23 active · default gpt-5.3-codex (272k ctx) · ~/.openclaw/agents/main/sessions/sessions.json     │
+└─────────────────┴───────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+Security audit
+Summary: 0 critical · 1 warn · 1 info
+  WARN State dir is readable by others
+    /root/.openclaw mode=755; consider restricting to 700.
+    Fix: chmod 700 /root/.openclaw
+Full report: openclaw security audit
+Deep probe: openclaw security audit --deep
+
+Channels
+┌──────────┬─────────┬────────┬───────────────────────────────────────────────────────────────────────────────────────┐
+│ Channel  │ Enabled │ State  │ Detail                                                                                │
+├──────────┼─────────┼────────┼───────────────────────────────────────────────────────────────────────────────────────┤
+│ Telegram │ ON      │ OK     │ token config (8509…0qNk · len 46) · accounts 1/1                                      │
+└──────────┴─────────┴────────┴───────────────────────────────────────────────────────────────────────────────────────┘
+
+Sessions
+┌───────────────────────────────────────────────────────────────┬────────┬──────────┬───────────────┬─────────────────┐
+│ Key                                                           │ Kind   │ Age      │ Model         │ Tokens          │
+├───────────────────────────────────────────────────────────────┼────────┼──────────┼───────────────┼─────────────────┤
+│ agent:main:cron:cf1a6afd-1c98-4…                              │ direct │ just now │ gpt-5.3-codex │ 0.0k/272k (0%)  │
+│ agent:main:cron:cf1a6afd-1c98-4…                              │ direct │ just now │ gpt-5.3-codex │ 0.0k/272k (0%)  │
+│ agent:main:main                                               │ direct │ 1m ago   │ gpt-5.3-codex │ 250k/272k (92%) │
+│ agent:main:cron:bb212327-0641-4…                              │ direct │ 15m ago  │ gpt-5.3-codex │ 14k/272k (5%)   │
+│ agent:main:cron:bb212327-0641-4…                              │ direct │ 15m ago  │ gpt-5.3-codex │ 14k/272k (5%)   │
+│ agent:main:cron:bb212327-0641-4…                              │ direct │ 45m ago  │ gpt-5.3-codex │ 101k/272k (37%) │
+│ agent:main:cron:bb212327-0641-4…                              │ direct │ 1h ago   │ gpt-5.3-codex │ 82k/272k (30%)  │
+│ agent:main:cron:cf1a6afd-1c98-4…                              │ direct │ 2h ago   │ gpt-5.3-codex │ 12k/272k (4%)   │
+│ agent:main:cron:0e0b8eca-65f4-4…                              │ direct │ 2h ago   │ gpt-5.3-codex │ 25k/272k (9%)   │
+│ agent:main:cron:0e0b8eca-65f4-4…                              │ direct │ 2h ago   │ gpt-5.3-codex │ 25k/272k (9%)   │
+└───────────────────────────────────────────────────────────────┴────────┴──────────┴───────────────┴─────────────────┘
+
+FAQ: https://docs.openclaw.ai/faq
+Troubleshooting: https://docs.openclaw.ai/troubleshooting
+
+Update available (npm 2026.2.9). Run: openclaw update
+
+Next steps:
+  Need to share?      openclaw status --all
+  Need to debug live? openclaw logs --follow
+  Need to test channels? openclaw status --deep
