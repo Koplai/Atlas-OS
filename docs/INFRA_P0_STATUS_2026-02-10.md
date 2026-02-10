@@ -22,5 +22,9 @@ Puertos con riesgo alto detectados por exposición en red:
 - Definida política de cierre/bind por servicio con matriz de acción + plan de ejecución controlada:
   - `/root/.openclaw/workspace/docs/INFRA_P0_BIND_POLICY_2026-02-10.md`
 
+## Hito técnico cerrado (ciclo 10:19)
+- Ejecutada captura forense actual de exposición de puertos + mapeo Docker para priorización de cierre en esta ventana:
+  - `/root/.openclaw/workspace/docs/INFRA_P0_PORT_SNAPSHOT_2026-02-10_101902.txt`
+
 ## Próximo paso P0
 - Ejecutar cambios de bind a loopback (`127.0.0.1`) en los servicios expuestos y validar por `ss -tulpen` + Cloudflare Access.

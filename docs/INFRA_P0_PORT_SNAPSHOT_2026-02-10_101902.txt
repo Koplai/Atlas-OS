@@ -1,0 +1,37 @@
+# INFRA P0 Port Snapshot
+2026-02-10T10:19:02+01:00
+
+## ss -tulpen
+Netid State  Recv-Q Send-Q  Local Address:Port  Peer Address:PortProcess                                                                                                                                               
+udp   UNCONN 0      0          127.0.0.54:53         0.0.0.0:*    users:(("systemd-resolve",pid=254,fd=16)) uid:991 ino:14362 sk:1 cgroup:/system.slice/systemd-resolved.service <->                                   
+udp   UNCONN 0      0       127.0.0.53%lo:53         0.0.0.0:*    users:(("systemd-resolve",pid=254,fd=14)) uid:991 ino:14360 sk:2 cgroup:/system.slice/systemd-resolved.service <->                                   
+udp   UNCONN 0      0      10.255.255.254:53         0.0.0.0:*    ino:1155 sk:3 cgroup:/ <->                                                                                                                           
+udp   UNCONN 0      0           127.0.0.1:323        0.0.0.0:*    ino:4731 sk:4 cgroup:/ <->                                                                                                                           
+udp   UNCONN 0      0             0.0.0.0:5353       0.0.0.0:*    users:(("openclaw-gatewa",pid=99303,fd=25)) ino:1097711 sk:9001 cgroup:/user.slice/user-0.slice/user@0.service/app.slice/openclaw-gateway.service <->
+udp   UNCONN 0      0             0.0.0.0:5353       0.0.0.0:*    users:(("openclaw-gatewa",pid=99303,fd=23)) ino:1097710 sk:9002 cgroup:/user.slice/user-0.slice/user@0.service/app.slice/openclaw-gateway.service <->
+udp   UNCONN 0      0               [::1]:323           [::]:*    ino:4732 sk:5 cgroup:/ v6only:1 <->                                                                                                                  
+tcp   LISTEN 0      511           0.0.0.0:18789      0.0.0.0:*    users:(("openclaw-gatewa",pid=99303,fd=22)) ino:1097697 sk:3001 cgroup:/user.slice/user-0.slice/user@0.service/app.slice/openclaw-gateway.service <->
+tcp   LISTEN 0      4096          0.0.0.0:631        0.0.0.0:*    users:(("cupsd",pid=651,fd=9)) ino:9886 sk:6 cgroup:/system.slice/snap.cups.cupsd.service <->                                                        
+tcp   LISTEN 0      1000   10.255.255.254:53         0.0.0.0:*    ino:1156 sk:7 cgroup:/ <->                                                                                                                           
+tcp   LISTEN 0      4096        127.0.0.1:11434      0.0.0.0:*    users:(("ollama",pid=269,fd=3)) uid:999 ino:9663 sk:8 cgroup:/system.slice/ollama.service <->                                                        
+tcp   LISTEN 0      4096    127.0.0.53%lo:53         0.0.0.0:*    users:(("systemd-resolve",pid=254,fd=15)) uid:991 ino:14361 sk:9 cgroup:/system.slice/systemd-resolved.service <->                                   
+tcp   LISTEN 0      4096       127.0.0.54:53         0.0.0.0:*    users:(("systemd-resolve",pid=254,fd=17)) uid:991 ino:14363 sk:a cgroup:/system.slice/systemd-resolved.service <->                                   
+tcp   LISTEN 0      511         127.0.0.1:18792      0.0.0.0:*    users:(("openclaw-gatewa",pid=99303,fd=28)) ino:1097705 sk:3002 cgroup:/user.slice/user-0.slice/user@0.service/app.slice/openclaw-gateway.service <->
+tcp   LISTEN 0      4096                *:3000             *:*    ino:89622 sk:b cgroup:/ v6only:0 <->                                                                                                                 
+tcp   LISTEN 0      4096             [::]:631           [::]:*    users:(("cupsd",pid=651,fd=10)) ino:9887 sk:d cgroup:/system.slice/snap.cups.cupsd.service v6only:1 <->                                              
+tcp   LISTEN 0      4096                *:8188             *:*    ino:1982 sk:e cgroup:/ v6only:0 <->                                                                                                                  
+tcp   LISTEN 0      4096                *:6333             *:*    ino:15467 sk:f cgroup:/ v6only:0 <->                                                                                                                 
+tcp   LISTEN 0      4096                *:5678             *:*    ino:89637 sk:10 cgroup:/ v6only:0 <->                                                                                                                
+
+## docker ps --format
+NAMES                           PORTS
+atlas-worker-sec                
+atlas-worker-pmo                
+atlas-worker-seo                
+atlas-cloudflared-nas           
+atlas-dashboard-dashboard-1     0.0.0.0:3000->3000/tcp, [::]:3000->3000/tcp
+atlas-dashboard-stt-whisper-1   9000/tcp
+atlas-dashboard-db-1            5432/tcp
+qdrant                          0.0.0.0:6333->6333/tcp, [::]:6333->6333/tcp
+comfyui                         0.0.0.0:8188->8189/tcp, [::]:8188->8189/tcp
+n8n                             0.0.0.0:5678->5678/tcp, [::]:5678->5678/tcp
