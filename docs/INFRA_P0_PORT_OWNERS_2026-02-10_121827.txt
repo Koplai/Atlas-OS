@@ -1,0 +1,19 @@
+# INFRA P0 port ownership snapshot (2026-02-10_121827)
+
+## ss -tulpen
+tcp   LISTEN 0      511           0.0.0.0:18789      0.0.0.0:*    users:(("openclaw-gatewa",pid=99303,fd=22)) ino:1097697 sk:3001 cgroup:/user.slice/user-0.slice/user@0.service/app.slice/openclaw-gateway.service <->
+tcp   LISTEN 0      4096                *:3000             *:*    ino:89622 sk:b cgroup:/ v6only:0 <->                                                                                                                 
+tcp   LISTEN 0      4096                *:6333             *:*    ino:15467 sk:f cgroup:/ v6only:0 <->                                                                                                                 
+tcp   LISTEN 0      4096                *:5678             *:*    ino:89637 sk:10 cgroup:/ v6only:0 <->                                                                                                                
+
+## docker ps (names + ports)
+NAMES                           PORTS
+atlas-worker-sec                
+atlas-worker-seo                
+atlas-cloudflared-nas           
+atlas-dashboard-dashboard-1     0.0.0.0:3000->3000/tcp, [::]:3000->3000/tcp
+atlas-dashboard-stt-whisper-1   9000/tcp
+atlas-dashboard-db-1            5432/tcp
+qdrant                          0.0.0.0:6333->6333/tcp, [::]:6333->6333/tcp
+comfyui                         0.0.0.0:8188->8189/tcp, [::]:8188->8189/tcp
+n8n                             0.0.0.0:5678->5678/tcp, [::]:5678->5678/tcp
