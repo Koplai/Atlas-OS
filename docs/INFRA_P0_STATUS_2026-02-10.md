@@ -18,5 +18,9 @@ Puertos con riesgo alto detectados por exposición en red:
 - 6333
 - 5678
 
+## Hito técnico cerrado (ciclo 09:18)
+- Definida política de cierre/bind por servicio con matriz de acción + plan de ejecución controlada:
+  - `/root/.openclaw/workspace/docs/INFRA_P0_BIND_POLICY_2026-02-10.md`
+
 ## Próximo paso P0
-- Definir política de cierre/bind por servicio y ejecutar en ventana controlada con rollback.
+- Ejecutar cambios de bind a loopback (`127.0.0.1`) en los servicios expuestos y validar por `ss -tulpen` + Cloudflare Access.
