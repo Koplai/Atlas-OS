@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import OpsControlCenter from "@/app/components/ops/OpsControlCenter";
 import McpStatusPanel from "@/app/components/ops/McpStatusPanel";
+import CommandStatusPanel from "@/app/components/ops/CommandStatusPanel";
 import { ROUTES } from "@/app/components/shell/routes";
 
 export default function OpsPage() {
@@ -21,6 +22,7 @@ export default function OpsPage() {
 
       <div className="space-y-3">
         <OpsControlCenter />
+        <CommandStatusPanel />
         <McpStatusPanel />
       </div>
     </div>
