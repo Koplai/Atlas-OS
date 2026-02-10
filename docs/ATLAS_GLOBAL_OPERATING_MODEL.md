@@ -48,3 +48,9 @@ Y esperar decisión de Atlas.
 - Todo debe ser explicable, rastreable y reversible.
 - No se borra historial operativo.
 - No se ocultan decisiones.
+
+## Unicidad de rol (obligatorio)
+- Regla por defecto: 1 agente por rol.
+- Solo se permiten duplicados de rol (replicas) por sobrecarga real y aprobación explícita de Atlas.
+- Toda réplica debe tener: owner, SLA objetivo, ventana temporal y criterio de desactivación.
+- La topología operativa y ubicación de workers debe mantenerse en `docs/ATLAS_WORKER_TOPOLOGY.md`.

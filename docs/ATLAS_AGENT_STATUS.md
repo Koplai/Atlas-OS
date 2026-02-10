@@ -16,3 +16,10 @@
 
 ## Cola de dependencias (hacia Atlas)
 - Sin bloqueos críticos reportados en este corte.
+
+## Workers / ubicación
+- Ver topología vigente en: `docs/ATLAS_WORKER_TOPOLOGY.md`
+- Worker pack actual en Docker Desktop:
+  - `atlas-worker-pmo`
+  - `atlas-worker-sec`
+  - `atlas-worker-seo`
