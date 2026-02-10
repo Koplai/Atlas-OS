@@ -1,12 +1,5 @@
 services:
-  atlas-worker-pmo:
-    image: alpine:3.20
-    container_name: atlas-worker-pmo
-    restart: unless-stopped
-    command: ["sh", "-c", "apk add --no-cache bash coreutils >/dev/null && while true; do /workspace/infra/worker-pack/scripts/pmo-worker.sh; sleep 1800; done"]
-    volumes:
-      - /root/.openclaw/workspace:/workspace:rw
-
+  # Guardrail: PMO role is control-plane only (WSL). Do not duplicate PM worker on edge nodes.
   atlas-worker-sec:
     image: alpine:3.20
     container_name: atlas-worker-sec

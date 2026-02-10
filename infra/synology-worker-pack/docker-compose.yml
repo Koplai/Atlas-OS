@@ -1,0 +1,17 @@
+services:
+  # Synology worker pack (execution-only roles, no PMO duplicate)
+  atlas-syno-worker-infra:
+    image: alpine:3.20
+    container_name: atlas-syno-worker-infra
+    restart: unless-stopped
+    command: ["sh", "-c", "apk add --no-cache bash coreutils >/dev/null && while true; do /workspace/infra/synology-worker-pack/scripts/infra-worker.sh; sleep 1800; done"]
+    volumes:
+      - /volume1/docker/atlas-workspace:/workspace:rw
+
+  atlas-syno-worker-batch:
+    image: alpine:3.20
+    container_name: atlas-syno-worker-batch
+    restart: unless-stopped
+    command: ["sh", "-c", "apk add --no-cache bash coreutils >/dev/null && while true; do /workspace/infra/synology-worker-pack/scripts/batch-worker.sh; sleep 1800; done"]
+    volumes:
+      - /volume1/docker/atlas-workspace:/workspace:rw
